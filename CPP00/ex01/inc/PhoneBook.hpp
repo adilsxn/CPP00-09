@@ -9,10 +9,17 @@ class PhoneBook
     public:
         PhoneBook(void);
         ~PhoneBook(void);
+        void incrementIndex(void);
+        std::string getInput(std::string input);
+        bool addContact(void);
+        bool searchContact(void);
+        bool showContact(void);
+        void exit(void);
         
     private:
        int index;
        bool on;
-       Contact contactList[8];
+       Contact List[8];
 };
 #endif
+
