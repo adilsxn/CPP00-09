@@ -11,15 +11,17 @@ class PhoneBook
         ~PhoneBook(void);
         void incrementIndex(void);
         std::string getInput(std::string input);
-        bool addContact(void);
+        bool _add(void);
+        bool addContact(Contact tmp);
         bool searchContact(void);
         bool showContact(void);
         void exit(void);
         
     private:
-       int index;
-       bool on;
-       Contact List[8];
+       int _index;
+       bool _on;
+       int _nbContacts;
+       Contact _List[8];
 };
 #endif
 
