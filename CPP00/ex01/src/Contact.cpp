@@ -1,6 +1,7 @@
 #include "../inc/Contact.hpp"
 #include <cctype>
 #include <iostream>
+#include <iomanip>
 
 Contact::Contact(void): FirstName(""),
                         LastName(""),
@@ -84,7 +85,9 @@ bool Contact::setDarkestSecret(std::string const str)
     return (true);
 };
 
-bool Contact::isStringAlpha(std::string const str)
+
+
+bool isStringAlpha(std::string const str)
 {
     std::string::const_iterator it = str.begin();
     for (; it < str.end(); it++)
@@ -93,7 +96,7 @@ bool Contact::isStringAlpha(std::string const str)
     return (true);
 };
 
-bool Contact::isStringDigit(std::string const str)
+bool isStringDigit(std::string const str)
 {
     std::string::const_iterator it = str.begin();
     for (; it < str.end(); it++)

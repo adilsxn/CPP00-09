@@ -27,8 +27,8 @@ class Contact
         std::string NickName;
         std::string PhoneNumber;
         std::string DarkestSecret;
-        bool isStringAlpha(std::string const str);
-        bool isStringDigit(std::string const str);
 };
 
+bool isStringDigit(std::string const str);
+bool isStringAlpha(std::string const str);
 #endif

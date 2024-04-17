@@ -14,7 +14,8 @@ class PhoneBook
         bool _add(void);
         bool addContact(Contact tmp);
         bool searchContact(void);
-        bool showContact(void);
+        bool showContact(int i);
+        int getIndex(std::string input);
         void exit(void);
         
     private:
@@ -23,5 +24,7 @@ class PhoneBook
        int _nbContacts;
        Contact _List[8];
 };
+
+std::string  getInput(std::string input);
 #endif
 
