@@ -1,5 +1,5 @@
 #include <iostream>
-#include <ctype.h>
+#include <cctype>
 
 int main (int argc, char* argv[])
 {
@@ -11,6 +11,7 @@ int main (int argc, char* argv[])
                 argv[i][j] = toupper(argv[i][j]);
             std::cout << argv[i];
         }
+        std::cout << "\n";
     }
     else
         std::cout<< "* LOUD AND UNBEARABLE FEEDBACK NOISE *\n"; 

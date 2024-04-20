@@ -1,18 +1,19 @@
 #include "../inc/PhoneBook.hpp"
-#include "Contact.hpp"
+#include "../inc/Contact.hpp"
 #include <iostream>
+#include <cstdlib>
 
 int main (void)
 {
     PhoneBook list;
     std::string input;
 
-    std::cout << "Welcome to HellaPages PhoneBook\n";
-    std::cout << "How may we help you ?\n";
-    std::cout << "We provide the following options:\n";
-    std::cout << "ADD - To add contacts to our list\n";
-    std::cout << "SEARCH - To display all the contacts\n";
-    std::cout << "EXIT - To exit the program\n";
+    std::cout << "\t\tWelcome to HellaPages PhoneBook\n";
+    std::cout << "\t\tHow may we help you ?\n";
+    std::cout << "\t\tWe provide the following options:\n";
+    std::cout << "\t\t\tADD - To add contacts to our list\n";
+    std::cout << "\t\t\tSEARCH - To display all the contacts\n";
+    std::cout << "\t\t\tEXIT - To exit the program\n";
     while(1)
     {
         input = getInput("option");
@@ -23,7 +24,7 @@ int main (void)
             else if (input == "SEARCH" || input == "search")
                 list.searchContact();
             else if (input == "EXIT" || input == "exit")
-                list.exit();
+                std::exit(0);
             else
                 std::cout << "We dont have this option\n";
         }

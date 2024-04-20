@@ -1,5 +1,5 @@
-#ifndef PHONEBOOK_HPP
-#define PHONEBOOK_HPP
+#ifndef PHONEBOOK_H
+#define PHONEBOOK_H
 
 #include <string>
 #include "Contact.hpp"
@@ -10,17 +10,14 @@ class PhoneBook
         PhoneBook(void);
         ~PhoneBook(void);
         void incrementIndex(void);
-        std::string getInput(std::string input);
         bool _add(void);
         bool addContact(Contact tmp);
         bool searchContact(void);
         bool showContact(int i);
         int getIndex(std::string input);
-        void exit(void);
+        int _index;
         
     private:
-       int _index;
-       bool _on;
        int _nbContacts;
        Contact _List[8];
 };
