@@ -1,12 +1,13 @@
 #include "../inc/Zombie.hpp"
 #include <iostream>
 
-int main (int ac, char **av, char **env)
+int main (void)
 {
     int n = 7;
     Zombie *rumble = zombieHord(n, "Bubushka");
 
     std::cout << "A zombie hord straight from the heap\n";
+    std::cout << "\n";
     for(int i = 0; i < n; i++) 
     {
         std::cout << i << " ";

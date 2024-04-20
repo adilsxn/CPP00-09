@@ -14,7 +14,7 @@ void Zombie::announce(void)
 
 Zombie::Zombie(std::string name): _name(name)
 {
-    std::cout <<"Zombie " + _name + " appears";
+    std::cout <<"Zombie " + _name + " appears\n";
     return ;
 };
 
