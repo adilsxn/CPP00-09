@@ -11,11 +11,11 @@
 # **************************************************************************** #
 
 
-SRCS       = src/main.cpp
+SRCS       = src/*.cpp
 OBJS       = ${SRCS:src/%.c=$(OBJ_DIR)/%.o}
 OBJ_DIR    = obj
 INCS 	   = inc/
-NAME       = ex02
+NAME       = ex03
 CC         = g++
 CFLAGS     = -g -Wall -Wextra -Werror -std=c++98
 RM         = rm -rf
@@ -30,6 +30,8 @@ ${NAME}: ${OBJS}
 	@${CC} ${CFLAGS}  $^ -o $@  -I ${INCS} ${LDFLAGS}
 	@echo "CPP created"
 
+$(B_OBJ_DIR)/%.o: src/%.c | $(OBJ_DIR)
+	@$(CC) $(CFLAGS) -I $(INCS) -c $< -o $@
 
 ${OBJ_DIR}:
 	@mkdir -p ${OBJ_DIR}
