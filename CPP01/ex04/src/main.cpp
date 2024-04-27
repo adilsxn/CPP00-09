@@ -20,10 +20,10 @@ static bool replace(std::string file, std::string tofind, std::string torepla)
     std::fstream nfile; 
     std::string line;
     std::string tmp;
-    int pos;
+    size_t pos;
 
-    ofile.open(file, std::ios::in);
-    nfile.open(std::string(file + ".replace"), std::ios::out);
+    ofile.open(file.c_str(), std::ios::in);
+    nfile.open(std::string(file + ".replace").c_str(), std::ios::out);
     if (!ofile)
         std::cout << "The file " <<file << " couldn;t be opened";
     else if (!nfile)
