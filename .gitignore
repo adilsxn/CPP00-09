@@ -34,7 +34,6 @@
 *.a
 *.json
 *.so
-*ex*
 
 .cache
 .vscode
