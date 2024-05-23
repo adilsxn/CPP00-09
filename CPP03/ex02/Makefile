@@ -11,11 +11,11 @@
 # **************************************************************************** #
 
 
-SRCS       = src/main.cpp src/ClapTrap.cpp 
+SRCS       = src/main.cpp src/ClapTrap.cpp src/FragTrap.cpp
 OBJS       = ${SRCS:src/%.c=$(OBJ_DIR)/%.o}
 OBJ_DIR    = obj
 INCS 	   = inc/
-NAME       = ex00
+NAME       = ex02
 CC         = g++
 CFLAGS     = -g -Wall -Wextra -Werror -std=c++98
 RM         = rm -rf
@@ -26,9 +26,9 @@ $(OBJ_DIR)/%.o: src/%.c | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@ -I $(INCS) ${LDFLAGS}
 
 ${NAME}: ${OBJS}
-	@echo "Compiling ex00"
+	@echo "Compiling ex02"
 	@${CC} ${CFLAGS}  $^ -o $@  -I ${INCS} ${LDFLAGS}
-	@echo "ex00 created"
+	@echo "ex02 created"
 
 
 ${OBJ_DIR}:
@@ -39,7 +39,7 @@ clean:
 
 fclean: clean
 	@${RM} ${NAME}
-	@echo "ex00 deleted"
+	@echo "ex02 deleted"
 
 re: fclean all
 

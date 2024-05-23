@@ -3,28 +3,28 @@
 #include <string>
 
 ClapTrap::ClapTrap(void):
-    _name(" "), _hitPoints(10), _energyPoints(10), _attackDamage(0)
+    _name(" "), _hitPoints(100), _energyPoints(100), _attackDamage(30)
 {
-    std::cout << "Default Constructor called\n";
+    std::cout << "Default Constructor for ClapTrap called\n";
     return ;
 }
 
 
 ClapTrap::ClapTrap(std::string name):
-    _name(name), _hitPoints(10), _energyPoints(10), _attackDamage(0)
+    _name(name), _hitPoints(100), _energyPoints(100), _attackDamage(30)
 {
-    std::cout << "Constructor for "<<name<<" called\n";
+    std::cout << "Constructor for ClapTrap "<<name<<" called\n";
     return ;
 }
 
 
 ClapTrap::~ClapTrap(void){
-    std::cout << "Destructor for "<<this->_name<<" called\n";
+    std::cout << "Destructor for ClapTrap "<<this->_name<<" called\n";
     return ;
 }
 
 ClapTrap::ClapTrap(ClapTrap const& src){
-    std::cout << "Copy Constructor called\n";
+    std::cout << "Copy Constructor for ClapTrap called\n";
     *this = src;
     return;
 }
@@ -53,7 +53,7 @@ int ClapTrap::getAttackDamage(void)const{
 
 
 ClapTrap& ClapTrap::operator=(ClapTrap const& rhs){
-    std::cout << "Copy assignment operator\n";
+    std::cout << "Copy assignment for ClapTrap operator\n";
     if (this != &rhs)
     {
         this->_name = rhs.getName();
