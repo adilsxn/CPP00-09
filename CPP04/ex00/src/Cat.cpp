@@ -1,7 +1,7 @@
 #include <iostream>
 #include "../inc/Cat.hpp"
 
-Cat::Cat(void):_type("Cat"){
+Cat::Cat(void):Animal(),_type("Cat"){
     std::cout << "Cat constructed\n";
 }
 

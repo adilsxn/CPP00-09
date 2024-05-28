@@ -1,40 +1,40 @@
 #include <iostream>
-#include "../inc/Animal.hpp"
+#include "../inc/WrongAnimal.hpp"
 
-Animal::Animal(void):_type("Blank"){
-    std::cout << "Animal constructed\n";
+WrongAnimal::WrongAnimal(void):_type("Blank"){
+    std::cout << "WrongAnimal constructed\n";
 }
 
 
-Animal::Animal(Animal const& src){
-    std::cout << "Animal copy constructed\n";
+WrongAnimal::WrongAnimal(WrongAnimal const& src){
+    std::cout << "WrongAnimal copy constructed\n";
     *this = src;
     return ;
 }
 
-std::string Animal::getType()const{
+std::string WrongAnimal::getType()const{
     return this->_type;
 }
 
-void Animal::setType(std::string type){
+void WrongAnimal::setType(std::string type){
     this->_type = type;
     return ;
 }
 
 
-void Animal::makeSound()const{
-    std::cout << "The "<<this->getType()<<" animals\n";
+void WrongAnimal::makeSound()const{
+    std::cout << "The "<<this->getType()<<" wronganimals\n";
 }
 
-Animal& Animal::operator=(Animal const& rhs){
-    std::cout << "Animal copy assigned\n";
+WrongAnimal& WrongAnimal::operator=(WrongAnimal const& rhs){
+    std::cout << "WrongAnimal copy assigned\n";
     if (this != &rhs)
         this->_type = rhs.getType();
     return *this;
 }
 
-Animal::~Animal(){
-    std::cout << "Animal of type "<<this->getType()<<" destroyed\n";
+WrongAnimal::~WrongAnimal(){
+    std::cout << "WrongAnimal of type "<<this->getType()<<" destroyed\n";
 }
 
 

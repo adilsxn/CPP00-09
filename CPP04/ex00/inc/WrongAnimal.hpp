@@ -1,17 +1,17 @@
-#ifndef ANIMAL_HPP
-#define ANIMAL_HPP
+#ifndef WRONGANIMAL_HPP
+#define WRONGANIMAL_HPP
 #include <string>
 
-class Animal {
+class WrongAnimal {
     protected:
         std::string _type;
     public:
-        Animal(void);
-        Animal(Animal const& src);
-        Animal& operator=(Animal const& rhs);
-        virtual ~Animal(void);
+        WrongAnimal(void);
+        WrongAnimal(WrongAnimal const& src);
+        WrongAnimal& operator=(WrongAnimal const& rhs);
+        virtual ~WrongAnimal(void);
         virtual void makeSound(void)const;
-        std::string getType(void)const;
+        virtual std::string getType(void)const;
         void setType(std::string type);
 };
 #endif

@@ -1,36 +1,36 @@
 #include <iostream>
-#include "../inc/Cat.hpp"
+#include "../inc/WrongCat.hpp"
 
-Cat::Cat(void):_type("Cat"){
-    std::cout << "Cat constructed\n";
+WrongCat::WrongCat(void):WrongAnimal(),_type("WrongCat"){
+    std::cout << "WrongCat constructed\n";
 }
 
-Cat::Cat(Cat const& src):Animal(src){
-    std::cout << "Cat copy constructed\n";
+WrongCat::WrongCat(WrongCat const& src):WrongAnimal(src){
+    std::cout << "WrongCat copy constructed\n";
     *this = src;
     return ;
 }
 
-std::string Cat::getType()const{
+std::string WrongCat::getType()const{
     return this->_type;
 }
 
-void Cat::setType(std::string type){
+void WrongCat::setType(std::string type){
     this->_type = type;
     return ;
 }
 
-void Cat::makeSound()const{
-    std::cout << "The "<<this->getType()<<" meows\n";
+void WrongCat::makeSound()const{
+    std::cout << "The "<<this->getType()<<" wrongmeows\n";
 }
 
-Cat& Cat::operator=(Cat const& rhs){
-    std::cout << "Cat copy assigned\n";
+WrongCat& WrongCat::operator=(WrongCat const& rhs){
+    std::cout << "WrongCat copy assigned\n";
     if (this != &rhs)
         this->_type = rhs.getType();
     return *this;
 }
 
-Cat::~Cat(){
-    std::cout << "Cat of type "<<this->getType()<<" destroyed\n";
+WrongCat::~WrongCat(){
+    std::cout << "WrongCat of type "<<this->getType()<<" destroyed\n";
 }

@@ -1,15 +1,15 @@
-#ifndef CAT_HPP
-#define CAT_HPP
+#ifndef WRONGCAT_HPP 
+#define WRONGCAT_HPP
 
-#include "Animal.hpp"
+#include "WrongAnimal.hpp"
 
-class Cat: public Animal{
+class WrongCat: public WrongAnimal{
     std::string _type;
     public:
-        Cat(void);
-        Cat(Cat const& src);
-        Cat& operator=(Cat const& rhs);
-        virtual ~Cat(void);
+        WrongCat(void);
+        WrongCat(WrongCat const& src);
+        WrongCat& operator=(WrongCat const& rhs);
+         ~WrongCat(void);
         std::string getType(void)const;
         void setType(std::string type);
         void makeSound(void)const;

@@ -2,7 +2,7 @@
 #include "../inc/Dog.hpp"
 
 
-Dog::Dog(void):_type("Dog"){
+Dog::Dog(void):Animal(),_type("Dog"){
     std::cout << "Dog constructed\n";
 }
 
