@@ -11,9 +11,11 @@ class Cat: public Animal{
         Cat(void);
         Cat(Cat const& src);
         Cat& operator=(Cat const& rhs);
-        virtual ~Cat(void);
+        ~Cat(void);
         std::string getType(void)const;
         void setType(std::string type);
+        void teachCat(std::string const& lesson);
+        void hunnidMeows(void)const;
         void makeSound(void)const;
 };
 #endif

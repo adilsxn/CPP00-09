@@ -13,6 +13,8 @@ class Dog: public Animal{
         void setType(std::string type);
         std::string getType(void)const;
         void makeSound(void)const;
+        void teachDog(std::string const& lesson);
+        void hunnidBarks(void)const;
         virtual ~Dog(void);
 };
 #endif

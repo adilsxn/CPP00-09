@@ -23,6 +23,17 @@ void Dog::setType(std::string type){
     return ;
 }
 
+
+
+void Dog::teachDog(std::string const& rhs){
+    this->_brain->learn(rhs);
+    return ;
+}
+
+void Dog::hunnidBarks(void)const{
+    this->_brain->speak();
+}
+
 void Dog::makeSound()const{
     std::cout << "The "<<this->getType()<<" barks\n";
 }

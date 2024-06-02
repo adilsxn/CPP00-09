@@ -12,7 +12,7 @@
 
 
 SRCS       = src/main.cpp src/Dog.cpp src/Cat.cpp src/Animal.cpp \
-			 src/Brain.cpp
+			 src/WrongAnimal.cpp src/WrongCat.cpp src/Brain.cpp
 OBJS       = ${SRCS:src/%.c=$(OBJ_DIR)/%.o}
 OBJ_DIR    = obj
 INCS 	   = inc/

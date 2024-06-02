@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include "../inc/Cat.hpp"
 
 Cat::Cat(void):Animal(),_type("Cat"){
@@ -21,6 +22,15 @@ void Cat::setType(std::string type){
     return ;
 }
 
+void Cat::teachCat(std::string const& rhs){
+    this->_brain->learn(rhs);
+    return ;
+}
+
+void Cat::hunnidMeows(void)const{
+    this->_brain->speak();
+}
+
 void Cat::makeSound()const{
     std::cout << "The "<<this->getType()<<" meows\n";
 }
@@ -30,7 +40,7 @@ Cat& Cat::operator=(Cat const& rhs){
     if (this != &rhs)
     {
         this->_type = rhs.getType();
-        this->_brain = rhs._brain; 
+        this->_brain = new Brain();
     }
     return *this;
 }
