@@ -14,14 +14,20 @@ Form::Form()
 Form::Form(std::string const& name, int gradeToSign, int gradeToExec)
     : _name(name)
 {
-    if (gradeToSign < 1 || gradeToExec < 1 )
-        throw GradeTooHighException();
-    else if (gradeToSign > 150 || gradeToExec > 150 )
-        throw GradeTooLowException();
-    this->_gradeToExecute = gradeToExec;
-    this->_gradeToSign = gradeToSign;
-    std::cout << "Form "<<name<<" created\n";
-    return ;
+    try {
+        std::cout << "Attempting to create a form named: "<<name<<"\n";
+        if (gradeToSign < 1 || gradeToExec < 1 )
+            throw GradeTooHighException();
+        else if (gradeToSign > 150 || gradeToExec > 150 )
+            throw GradeTooLowException();
+        this->_gradeToExecute = gradeToExec;
+        this->_gradeToSign = gradeToSign;
+        std::cout << "Form "<<name<<" created\n";
+        return ;
+    }
+    catch(std::exception& e){
+        std::cout << "Exception: "<<e.what()<<"\n";
+    }
 }
 
 Form::Form(Form const& src){
@@ -52,11 +58,18 @@ std::string Form::getName(void)const{
 }
 
 void  Form::setGradeToExecute(int grade){
-    if (grade < 1)
-        throw GradeTooHighException();
-    else if (grade > 150)
-        throw GradeTooLowException();
-    this->_gradeToExecute = grade;
+    try {
+        std::cout <<"Trying to set the grade to execute for form"
+            <<" named "<<this->getName()<<" to "<<grade<<"\n";
+        if (grade < 1)
+            throw GradeTooHighException();
+        else if (grade > 150)
+            throw GradeTooLowException();
+        this->_gradeToExecute = grade;
+    }
+    catch(std::exception& e){
+        std::cout << "Exception: "<<e.what()<<"\n";
+    }
     return ;
 }
 
@@ -65,11 +78,18 @@ bool Form::isSigned(void)const{
 }
 
 void  Form::setGradeToSign(int grade){
-    if (grade < 1)
-        throw GradeTooHighException();
-    else if (grade > 150)
-        throw GradeTooLowException();
-    this->_gradeToSign = grade;
+    try {
+        std::cout <<"Trying to set the grade to sign for form named: "
+            <<this->getName()<<" to "<<grade<<"\n";
+        if (grade < 1)
+            throw GradeTooHighException();
+        else if (grade > 150)
+            throw GradeTooLowException();
+        this->_gradeToSign = grade;
+    }
+    catch(std::exception& e){
+        std::cout << "Exception: "<<e.what()<<"\n";
+    }
     return ;
 }
 
@@ -87,13 +107,15 @@ Form::~Form(void){
 
 void Form::beSigned(Bureaucrat const& b){
     try {
+        std::cout << "Bureaucrat named "<<b.getName()<<" tries to sign"
+            <<" the form named "<<this->getName()<<"\n";
         if (b.getGrade() <= this->getGradeToSign())
             throw Form::GradeTooLowException();
+        this->_signed = true;
     }
     catch(std::exception& e){
         std::cout << "Exception: "<<e.what()<<"\n";
     }
-    this->_signed = true;
 }
 
 const char* Form::GradeTooHighException::what()const throw(){

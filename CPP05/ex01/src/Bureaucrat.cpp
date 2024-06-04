@@ -86,7 +86,7 @@ void Bureaucrat::signForm(Form const& f)const{
 
         std::cout <<"The bureaucrat named " << this->getName();
         std::cout <<" couldn't sign the form: "<<f.getName();
-        std::cout << " because" << "the grade is too low\n";
+        std::cout << " because the grade is too low\n";
     }
 }
 
