@@ -1,7 +1,7 @@
 #include "../inc/Bureaucrat.hpp"
 #include <iostream>
 
-Bureaucrat::Bureaucrat():_name("robot"), _grade(75){
+Bureaucrat::Bureaucrat():_name("unnamed"), _grade(75){
     std::cout << "Bureaucrat default created\n";
     return ;
 }
@@ -9,12 +9,20 @@ Bureaucrat::Bureaucrat():_name("robot"), _grade(75){
 
 Bureaucrat::Bureaucrat(std::string const& name, int grade)
     : _name(name){
-    if (grade < 1)
-        throw GradeTooHighException();
-    else if (grade > 150)
-        throw GradeTooLowException();
-    this->_grade = grade;
-    std::cout << "Bureaucrat "<<name<<" created\n";
+    try{
+        std::cout << "Trying to create a bureaucrat named "
+            <<name<<"\n";
+        if (grade < 1)
+            throw GradeTooHighException();
+        else if (grade > 150)
+            throw GradeTooLowException();
+        this->_grade = grade;
+        std::cout << "Bureaucrat "<<name<<" created\n";
+    }
+    catch(std::exception& e)
+    {
+        std::cout <<"Exception: "<<e.what();
+    }
     return ;
 }
 
@@ -46,34 +54,60 @@ std::string Bureaucrat::getName(void)const{
 }
 
 void Bureaucrat::incrementGrade(void){
-    const int lim = 1;
-    if (this->_grade > lim)
-        this->_grade--;
-    else
-        throw GradeTooHighException();
-    return ;
+    try{
+        std::cout <<"Trying to increase the Bureaucrat "
+            <<this->getName()<<"'s grade\n";
+        const int lim = 1;
+        if (this->_grade > lim)
+            this->_grade--;
+        else
+            throw GradeTooHighException();
+        return ;
+    }
+    catch(std::exception& e)
+    {
+        std::cout <<"Exception: "<<e.what();
+    }
 }
 
 void Bureaucrat::decrementGrade(void){
-    const int lim = 150;
-    if (this->_grade > lim)
-        this->_grade++;
-    else
-        throw GradeTooLowException();
-    return ;
+    try {
+        std::cout <<"Trying to decrease the Bureaucrat "
+            <<this->getName()<<"'s grade\n";
+        const int lim = 150;
+        if (this->_grade > lim)
+            this->_grade++;
+        else
+            throw GradeTooLowException();
+        return ;
+    }
+    catch(std::exception& e)
+    {
+        std::cout <<"Exception: "<<e.what();
+    }
 }
 int  Bureaucrat::getGrade(void)const{
     return this->_grade;
 }
 
 void  Bureaucrat::setGrade(int grade){
-    if (grade < 1)
-        throw GradeTooHighException();
-    else if (grade > 150)
-        throw GradeTooLowException();
-    this->_grade = grade;
-    return ;
+    try{
+        std::cout <<"Trying to set the Bureaucrat "
+            <<this->getName()<<"'s grade to "<<grade;
+        if (grade < 1)
+            throw GradeTooHighException();
+        else if (grade > 150)
+            throw GradeTooLowException();
+        this->_grade = grade;
+        return ;
+    }
+    catch(std::exception& e)
+    {
+        std::cout <<"Exception: "<<e.what();
+    }
 }
+
+
 Bureaucrat::~Bureaucrat(void){
     std::cout <<"Bureaucrat named "<<this->_name<<" destroyed\n";
 }
