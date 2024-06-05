@@ -15,33 +15,40 @@
 
 int	main(void)
 {
-    try{
-        Bureaucrat s;
-        s.setName("Somebody's Luv");
-        std::cout << s;
-        Bureaucrat t("Trotsky", 100);
-        std::cout << t;
-        Bureaucrat f("Frida", -1);
-        std::cout << f;
-        t.incrementGrade();
+    
+    {
+    std::cout << "\n----------Beginning--------------\n";
+    Bureaucrat s;
+    s.setName("Somebody's Luv");
+    s.setGrade(150);
+    std::cout << s;
+    s.decrementGrade();
+    std::cout <<"\n----------\n";
+    Bureaucrat s1(s);
+    s1.setName("Just Luv");
+    s1.setGrade(1);
+    std::cout << s1;
+    s1.incrementGrade();
+    std::cout << "\n---------Destructors will come after----------\n";
     }
-    catch(const std::exception& e){
-        std::cout <<"Exception: "<<e.what();
-    }
-    std::cout << "\n----------Another attempt--------------\n";
-    try{
 
-       Bureaucrat l("Lenin", 84);
-       Bureaucrat b("Bulgakhov", 34);
-       std::cout<<l;
-       std::cout<<b;
-
-       l.setGrade(-1);
-       b.incrementGrade();
-
-       }
-       catch(const std::exception& e){
-       std::cout <<"Exception: "<<e.what();
-       };
+    std::cout << "\n----------Another Beginning--------------\n";
+    Bureaucrat t("Trotsky", 100);
+    Bureaucrat f("Frida", 75);
+    Bureaucrat b("Bulgakhov", 34);
+    Bureaucrat l("Lenin", 84);
+    std::cout <<"\n----------\n";
+    std::cout << t;
+    std::cout << f;
+    std::cout << l;
+    std::cout << b;
+    std::cout <<"\n----------\n";
+    l.setGrade(-1);
+    b.setGrade(151);
+    t.decrementGrade();
+    std::cout << t;
+    f.incrementGrade();
+    std::cout << f;
+    std::cout << "\n---------Destructors will come after----------\n";
     return (0);
 }

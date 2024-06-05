@@ -75,7 +75,7 @@ void Bureaucrat::decrementGrade(void){
         std::cout <<"Trying to decrease the Bureaucrat "
             <<this->getName()<<"'s grade\n";
         const int lim = 150;
-        if (this->_grade > lim)
+        if (this->_grade < lim)
             this->_grade++;
         else
             throw GradeTooLowException();
@@ -93,7 +93,7 @@ int  Bureaucrat::getGrade(void)const{
 void  Bureaucrat::setGrade(int grade){
     try{
         std::cout <<"Trying to set the Bureaucrat "
-            <<this->getName()<<"'s grade to "<<grade;
+            <<this->getName()<<"'s grade to "<<grade<<"\n";
         if (grade < 1)
             throw GradeTooHighException();
         else if (grade > 150)
