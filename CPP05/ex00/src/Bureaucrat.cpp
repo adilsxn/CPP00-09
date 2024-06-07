@@ -107,7 +107,6 @@ void  Bureaucrat::setGrade(int grade){
     }
 }
 
-
 Bureaucrat::~Bureaucrat(void){
     std::cout <<"Bureaucrat named "<<this->_name<<" destroyed\n";
 }
