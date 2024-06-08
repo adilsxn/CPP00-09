@@ -1,4 +1,5 @@
 #include "../inc/Bureaucrat.hpp"
+#include <exception>
 #include <iostream>
 
 Bureaucrat::Bureaucrat():_name("robot"), _grade(75){
@@ -75,7 +76,7 @@ void  Bureaucrat::setGrade(int grade){
     return ;
 }
 
-void Bureaucrat::signForm(Form const& f)const{
+void Bureaucrat::signForm(AForm const& f)const{
     if (f.isSigned() == true)
     {
         std::cout <<"The bureaucrat named " << this->getName();
@@ -87,6 +88,17 @@ void Bureaucrat::signForm(Form const& f)const{
         std::cout <<"The bureaucrat named " << this->getName();
         std::cout <<" couldn't sign the form: "<<f.getName();
         std::cout << " because the grade is too low\n";
+    }
+}
+
+void Bureaucrat::executeForm(AForm const& form){
+    try{
+        std::cout <<"The bureaucrat named "<<this->getName()
+            <<" is trying to execute the "<<form.getName()<<"\n";
+        form.execute(*this);
+        std::cout <<this->getName()<<" executed "<<form.getName();
+    }catch(std::exception& e){
+        std::cout <<"Exception: "<<e.what();
     }
 }
 

@@ -15,7 +15,7 @@ class ShrubberyCreationForm: public AForm{
         ShrubberyCreationForm& operator=(ShrubberyCreationForm const& rhs);
         void setTarget(std::string const& target);
         std::string getTarget(void)const;
-        void execute(Bureaucrat const& executor);
+        void execute(Bureaucrat const& executor)const;
         class FileCreationException: public std::exception{
             virtual const char* what()const throw();
         };

@@ -23,7 +23,7 @@ class AForm {
         void setGradeToExecute(int grade);
         bool isSigned(void)const;
         int getGradeToSign(void)const;
-        virtual void execute(Bureaucrat const& executor) = 0;
+        virtual void execute(Bureaucrat const& executor)const = 0;
         void checkRequirements(Bureaucrat const& b)const;
         int getGradeToExecute(void)const;
         void setName(std::string const& name);
