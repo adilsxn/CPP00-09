@@ -4,14 +4,14 @@
 #include <exception>
 #include <iostream>
 
-RobotomyRequestForm::RobotomyRequestForm():AForm("base", 72, 45),_target("unnamed")
+RobotomyRequestForm::RobotomyRequestForm():AForm("RobotomyRequestForm", 72, 45),_target("unnamed")
 {
     std::cout << "RobotomyRequestForm default created\n";
     return ;
 }
 
 RobotomyRequestForm::RobotomyRequestForm(std::string const& target)
-    :AForm("base", 72, 45),_target(target)
+    :AForm("", 72, 45),_target(target)
 {
         std::cout << "RobotomyRequestForm with target "<<target
             <<" created\n";
@@ -33,7 +33,7 @@ RobotomyRequestForm& RobotomyRequestForm::operator=(RobotomyRequestForm const& r
     return *this;
 }
 
-void RobotomyRequestForm::execute(Bureaucrat const& executor){
+void RobotomyRequestForm::execute(Bureaucrat const& executor)const{
     try{
         std::cout <<"Attempting to robotomize the target "<<this->_target
             <<"\n";

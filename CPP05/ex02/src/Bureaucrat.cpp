@@ -19,7 +19,7 @@ Bureaucrat::Bureaucrat(std::string const& name, int grade)
     return ;
 }
 
-
+  
 Bureaucrat::Bureaucrat(Bureaucrat const& src){
     *this = src;
     std::cout << "Bureaucrat copy created created\n";
@@ -79,15 +79,15 @@ void  Bureaucrat::setGrade(int grade){
 void Bureaucrat::signForm(AForm const& f)const{
     if (f.isSigned() == true)
     {
-        std::cout <<"The bureaucrat named " << this->getName();
-        std::cout <<" signed the form: "<<f.getName();
+        std::cout <<"The bureaucrat named " << this->getName()
+            <<" signed the form: "<<f.getName()<<"\n";
     }
     else
     {
 
         std::cout <<"The bureaucrat named " << this->getName();
-        std::cout <<" couldn't sign the form: "<<f.getName();
-        std::cout << " because the grade is too low\n";
+        std::cout <<" couldn't sign the form: "<<f.getName()
+            << " because the grade is too low\n";
     }
 }
 
@@ -96,7 +96,6 @@ void Bureaucrat::executeForm(AForm const& form){
         std::cout <<"The bureaucrat named "<<this->getName()
             <<" is trying to execute the "<<form.getName()<<"\n";
         form.execute(*this);
-        std::cout <<this->getName()<<" executed "<<form.getName();
     }catch(std::exception& e){
         std::cout <<"Exception: "<<e.what();
     }

@@ -11,8 +11,8 @@
 # **************************************************************************** #
 
 
-SRCS       = src/ShrubberyCreationFrom.cpp src/RobotomyRequestForm.cpp       \
-			 src/PresidentialPardonForm.cpp src/Form.cpp src/Bureaucrat.cpp  \
+SRCS       = src/ShrubberyCreationForm.cpp src/RobotomyRequestForm.cpp       \
+			 src/PresidentialPardonForm.cpp src/AForm.cpp src/Bureaucrat.cpp  \
 			 src/main.cpp
 OBJS       = ${SRCS:src/%.c=$(OBJ_DIR)/%.o}
 OBJ_DIR    = obj

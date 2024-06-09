@@ -2,14 +2,14 @@
 #include <exception>
 #include <iostream>
 
-PresidentialPardonForm::PresidentialPardonForm():AForm("base", 25, 5),_target("unnamed")
+PresidentialPardonForm::PresidentialPardonForm():AForm("PresidentialPardonForm", 25, 5),_target("unnamed")
 {
     std::cout << "PresidentialPardonForm default created\n";
     return ;
 }
 
 PresidentialPardonForm::PresidentialPardonForm(std::string const& target)
-    :AForm("base", 25, 5),_target(target)
+    :AForm("PresidentialPardonForm", 25, 5),_target(target)
 {
         std::cout << "PresidentialPardonForm with target "<<target
             <<" created\n";
@@ -31,7 +31,7 @@ PresidentialPardonForm& PresidentialPardonForm::operator=(PresidentialPardonForm
     return *this;
 }
 
-void PresidentialPardonForm::execute(Bureaucrat const& executor){
+void PresidentialPardonForm::execute(Bureaucrat const& executor)const{
     try{
         std::cout <<"Attempting to pardon the target "<<this->_target
             <<"\n";

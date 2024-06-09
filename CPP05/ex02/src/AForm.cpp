@@ -117,13 +117,17 @@ void AForm::beSigned(Bureaucrat const& b){
     try {
         std::cout << "Bureaucrat named "<<b.getName()<<" tries to sign"
             <<" the form named "<<this->getName()<<"\n";
-        if (b.getGrade() <= this->getGradeToSign())
+        if (b.getGrade() >  this->getGradeToSign())
             throw AForm::GradeTooLowException();
         this->_signed = true;
     }
     catch(std::exception& e){
         std::cout << "Exception: "<<e.what()<<"\n";
     }
+}
+
+const char *AForm::NotSignedException::what()const throw(){
+    return "The form is not signed\n";
 }
 
 const char* AForm::GradeTooHighException::what()const throw(){

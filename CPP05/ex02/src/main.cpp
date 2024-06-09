@@ -10,38 +10,70 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/Form.hpp"
-// #include "../inc/Bureaucrat.hpp"
+#include "../inc/PresidentialPardonForm.hpp"
+#include "../inc/ShrubberyCreationForm.hpp"
+#include "../inc/RobotomyRequestForm.hpp"
 #include <iostream>
 
 int	main(void)
 {
-    //Create Bureaucrats
-    std::cout << "\n----------Begin--------------\n";
-    std::cout << "\n----------Creating Bureaucrats--------------\n";
-    Bureaucrat f("Frida", 65);
-    Bureaucrat t("Trotsky", 100);
-    // Bureaucrat p("Placeholder", -1);
-    // Bureaucrat p2("Another Placeholder", 151);
-    std::cout <<"\n"<<f;
-    std::cout <<t;
-
-    std::cout << "\n----------Creating Forms--------------\n";
-    Form g("good", 75,75);
-    Form b("bad", 85, 58);
-    Form p3("gradeToSignTooHigh", -1, 149);
-    Form p4("gradeToExecTooLow", 1, 151);
-    std::cout << "\n--------\n";
-    std::cout<<g;
-    std::cout<<b;
-    std::cout << "\n----------Trying to sign the forms--------------\n";
-    g.beSigned(f);
-    f.signForm(g);
-    std::cout << "\n--------\n";
-    b.beSigned(t);
-    t.signForm(b);
-    std::cout << "\n--------\n";
-
-    std::cout << "\n----------The End--------------\n";
+    {
+        std::cout << "\n----------Begin ShrubberyCreationForm --------------\n";
+        std::cout << "\n----------Creating Bureaucrats--------------\n";
+        Bureaucrat f("Frida", 125);
+        Bureaucrat t("Trotsky", 150);
+        std::cout <<"\n"<<f;
+        std::cout <<t;
+        std::cout << "\n----------Creating Forms--------------\n";
+        ShrubberyCreationForm s("s");
+        ShrubberyCreationForm st("st");
+        std::cout << "\n----------Trying to sign the forms--------------\n";
+        s.beSigned(f);
+        f.signForm(s);
+        std::cout << "\n----Executing the forms----\n";
+        f.executeForm(s);
+        t.executeForm(st);
+        std::cout << "\n----------The End--------------\n";
+    }
+    {
+        std::cout << "\n\n----------Begin PresidentialPardonForm --------------\n";
+        std::cout << "\n----------Creating Bureaucrats--------------\n";
+        Bureaucrat f("Frida", 5);
+        Bureaucrat t("Trotsky", 35);
+        std::cout <<"\n"<<f;
+        std::cout <<t;
+        std::cout << "\n----------Creating Forms--------------\n";
+        PresidentialPardonForm s("s");
+        PresidentialPardonForm st("st");
+        std::cout << "\n----------Trying to sign the forms--------------\n";
+        s.beSigned(f);
+        f.signForm(s);
+        f.executeForm(s);
+        std::cout << "\n----Executing the forms----\n";
+        st.beSigned(f);
+        f.signForm(st);
+        t.executeForm(st);
+        std::cout << "\n----------The End--------------\n";
+    }
+    {
+        std::cout << "\n\n----------Begin RobotomyRequestForm--------------\n";
+        std::cout << "\n----------Creating Bureaucrats--------------\n";
+        Bureaucrat f("Frida", 5);
+        Bureaucrat t("Trotsky", 45);
+        std::cout <<"\n"<<f;
+        std::cout <<t;
+        std::cout << "\n----------Creating Forms--------------\n";
+        RobotomyRequestForm s("s");
+        RobotomyRequestForm st("st");
+        std::cout << "\n----------Trying to sign the forms--------------\n";
+        s.beSigned(f);
+        f.signForm(s);
+        f.executeForm(s);
+        std::cout << "\n----Executing the forms----\n";
+        st.beSigned(t);
+        t.signForm(st);
+        t.executeForm(st);
+        std::cout << "\n----------The End--------------\n";
+    }
     return (0);
 }
