@@ -43,23 +43,17 @@ const char* Intern::UnknownFormException::what()const throw(){
 }
 
 AForm* Intern::makeForm(std::string const& name, std::string const& target){
-    try {
-        AForm* (Intern::*forms[3])(std::string const&) = {
-            &Intern::_shrubbery, &Intern::_presidential, &Intern::_robotomy
-        };
-        std::string names[3] = {
-            "shrubbery creation", "robotomy request", "presidential pardon"
-        };
-        for(int i = 0; i < 3; i++){
-            if(names[i].compare(name))
-                return (this->*forms[i])(target);
-        }
-        throw UnknownFormException();
+    AForm* (Intern::*forms[3])(std::string const&) = {
+        &Intern::_shrubbery, &Intern::_presidential, &Intern::_robotomy
+    };
+    std::string names[3] = {
+        "shrubbery creation", "presidential pardon", "robotomy request"
+    };
+    for(int i = 0; i < 3; i++){
+        if(!names[i].compare(name))
+            return (this->*forms[i])(target);
     }
-    catch(std::exception& e){
-        std::cout <<"Exception: "<<e.what();
-    }
-    return nullptr;
+    throw UnknownFormException();
 };
 
 Intern::~Intern(void){

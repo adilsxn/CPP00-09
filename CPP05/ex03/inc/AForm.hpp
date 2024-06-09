@@ -29,7 +29,7 @@ class AForm {
         void setName(std::string const& name);
         std::string getName(void)const;
         void beSigned(Bureaucrat const& b);
-        ~AForm(void);
+        virtual ~AForm(void);
         class GradeTooHighException:public std::exception{
             public:
                 virtual const char* what()const throw();

@@ -10,70 +10,76 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/PresidentialPardonForm.hpp"
-#include "../inc/ShrubberyCreationForm.hpp"
-#include "../inc/RobotomyRequestForm.hpp"
+#include "../inc/Intern.hpp"
+#include "../inc/Bureaucrat.hpp"
+#include <exception>
 #include <iostream>
 
 int	main(void)
 {
+    Intern anIntern;
     {
-        std::cout << "\n----------Begin ShrubberyCreationForm --------------\n";
-        std::cout << "\n----------Creating Bureaucrats--------------\n";
-        Bureaucrat f("Frida", 125);
-        Bureaucrat t("Trotsky", 150);
-        std::cout <<"\n"<<f;
-        std::cout <<t;
-        std::cout << "\n----------Creating Forms--------------\n";
-        ShrubberyCreationForm s("s");
-        ShrubberyCreationForm st("st");
-        std::cout << "\n----------Trying to sign the forms--------------\n";
-        s.beSigned(f);
-        f.signForm(s);
-        std::cout << "\n----Executing the forms----\n";
-        f.executeForm(s);
-        t.executeForm(st);
-        std::cout << "\n----------The End--------------\n";
+        std::cout << "\n----------Begin Robotomy--------------\n";
+        AForm* frms;
+        Bureaucrat f("Frida", 45);
+        frms = anIntern.makeForm("robotomy request", "Marx Baby");
+        std::cout<<std::endl;
+        frms->beSigned(f);
+        f.executeForm(*frms);
+        std::cout << "\n----------End Robotomy--------------\n";
+        delete frms;
     }
+    std::cout<<std::endl;
     {
-        std::cout << "\n\n----------Begin PresidentialPardonForm --------------\n";
-        std::cout << "\n----------Creating Bureaucrats--------------\n";
+        std::cout << "\n----------Begin Presidential--------------\n";
+        AForm* frms;
         Bureaucrat f("Frida", 5);
-        Bureaucrat t("Trotsky", 35);
-        std::cout <<"\n"<<f;
-        std::cout <<t;
-        std::cout << "\n----------Creating Forms--------------\n";
-        PresidentialPardonForm s("s");
-        PresidentialPardonForm st("st");
-        std::cout << "\n----------Trying to sign the forms--------------\n";
-        s.beSigned(f);
-        f.signForm(s);
-        f.executeForm(s);
-        std::cout << "\n----Executing the forms----\n";
-        st.beSigned(f);
-        f.signForm(st);
-        t.executeForm(st);
-        std::cout << "\n----------The End--------------\n";
+        frms = anIntern.makeForm("presidential pardon", "Mao Baby");
+        std::cout<<std::endl;
+        frms->beSigned(f);
+        f.executeForm(*frms);
+        std::cout << "\n----------End Presidential--------------\n";
+        delete frms;
     }
+    std::cout<<std::endl;
     {
-        std::cout << "\n\n----------Begin RobotomyRequestForm--------------\n";
-        std::cout << "\n----------Creating Bureaucrats--------------\n";
-        Bureaucrat f("Frida", 5);
-        Bureaucrat t("Trotsky", 45);
-        std::cout <<"\n"<<f;
-        std::cout <<t;
-        std::cout << "\n----------Creating Forms--------------\n";
-        RobotomyRequestForm s("s");
-        RobotomyRequestForm st("st");
-        std::cout << "\n----------Trying to sign the forms--------------\n";
-        s.beSigned(f);
-        f.signForm(s);
-        f.executeForm(s);
-        std::cout << "\n----Executing the forms----\n";
-        st.beSigned(t);
-        t.signForm(st);
-        t.executeForm(st);
+        std::cout << "\n----------Begin Shrubbery--------------\n";
+        AForm* frms;
+        Bureaucrat f("Frida", 137);
+        frms = anIntern.makeForm("shrubbery creation", "Home Sweet Home");
+        std::cout<<std::endl;
+        frms->beSigned(f);
+        f.executeForm(*frms);
+        std::cout << "\n----------End Shrubbery--------------\n";
+        delete frms;
+    }
+    std::cout<<std::endl;
+    {
+        try{
+        std::cout << "\n----------Begin--------------\n";
+        AForm* frms;
+        Bureaucrat f("Frida", 137);
+        frms = anIntern.makeForm("shubbery creation", "Home Sweet Home");
         std::cout << "\n----------The End--------------\n";
+        delete frms;
+        }
+        catch(std::exception& e){
+            std::cout<<"Exception: "<<e.what();
+        }
+    }
+    std::cout<<std::endl;
+    {
+        try{
+        std::cout << "\n----------Begin--------------\n";
+        AForm* frms;
+        Bureaucrat f("Frida", 137);
+        frms = anIntern.makeForm("president padron", "Pol Pot");
+        std::cout << "\n----------The End--------------\n";
+        delete frms;
+        }
+        catch(std::exception& e){
+            std::cout<<"Exception: "<<e.what();
+        }
     }
     return (0);
 }
