@@ -12,12 +12,12 @@
 
 
 SRCS       = src/ShrubberyCreationForm.cpp src/RobotomyRequestForm.cpp       \
-			 src/PresidentialPardonForm.cpp src/AForm.cpp src/Bureaucrat.cpp  \
-			 src/main.cpp
+			 src/PresidentialPardonForm.cpp src/AForm.cpp src/Bureaucrat.cpp \
+			 src/Intern.cpp src/main.cpp
 OBJS       = ${SRCS:src/%.c=$(OBJ_DIR)/%.o}
 OBJ_DIR    = obj
 INCS 	   = inc/
-NAME       = ex02
+NAME       = ex03
 CC         = g++
 CFLAGS     = -g -Wall -Wextra -Werror -std=c++98
 RM         = rm -rf
@@ -28,9 +28,9 @@ $(OBJ_DIR)/%.o: src/%.c | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@ -I $(INCS) ${LDFLAGS}
 
 ${NAME}: ${OBJS}
-	@echo "Compiling ex02"
+	@echo "Compiling ex03"
 	@${CC} ${CFLAGS}  $^ -o $@  -I ${INCS} ${LDFLAGS}
-	@echo "ex02 created"
+	@echo "ex03 created"
 
 
 ${OBJ_DIR}:
@@ -41,7 +41,7 @@ clean:
 
 fclean: clean
 	@${RM} ${NAME}
-	@echo "ex02 deleted"
+	@echo "ex03 deleted"
 
 re: fclean all
 
