@@ -21,8 +21,8 @@ bool Contact::setFirstName(std::string const str)
         return false;
     else if (isStringAlpha(str) == false)
     {
-        std::cout << "The string should not contains ";
-        std::cout << "numbers, hyphens or spaces\n";
+        std::cout << "The string should not contain"
+            << " numbers, hyphens or spaces\n";
         return (false);
     }
     this->FirstName = str;
@@ -35,8 +35,8 @@ bool Contact::setLastName(std::string const str)
         return false;
     else if (isStringAlpha(str) == false)
     {
-        std::cout << "The string should not contains ";
-        std::cout << "numbers, hyphens or spaces\n";
+        std::cout << "The string should not contain"
+            << " numbers, hyphens or spaces\n";
         return (false);
     }
     this->LastName = str;
@@ -49,8 +49,8 @@ bool Contact::setNickName(std::string const str)
         return false;
     else if (isStringAlpha(str) == false)
     {
-        std::cout << "The string should not contains ";
-        std::cout << "numbers, hyphens or spaces\n";
+        std::cout << "The string should not contain"
+            << " numbers, hyphens or spaces\n";
         return (false);
     }
     this->NickName =  str;
@@ -76,15 +76,13 @@ bool Contact::setDarkestSecret(std::string const str)
         return false;
     else if (isStringAlpha(str) == false)
     {
-        std::cout << "The string should not contains ";
-        std::cout << "numbers, hyphens or spaces\n";
+        std::cout << "The string should not contain"
+            << " numbers, hyphens or spaces\n";
         return (false);
     }
     this->DarkestSecret =  str;
     return (true);
 };
-
-
 
 std::string Contact::getFirstName(void)const
 {
