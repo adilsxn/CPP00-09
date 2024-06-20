@@ -6,9 +6,8 @@
 class Data {
 public:
     Data(void);
-    Data(std::string& input);
-    Data(const Data & src);
-    Data &operator=(const Data & rhs);
+    Data(Data const& src);
+    Data &operator=(Data const& rhs);
     ~Data();
     std::string name;
     int age;

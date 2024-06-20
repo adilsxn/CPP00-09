@@ -10,9 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cstddef>
-#include <iostream>
 #include "../inc/Serializer.hpp"
+#include <iostream>
 
 int	main(void)
 {
@@ -23,18 +22,18 @@ int	main(void)
     ptr->name = "Adilson";
     ptr->age = 25;
 
-    std::cout <<"/////-----Data - before serialization-----////";
+    std::cout <<"-------Data - before serialization--------\n";
     std::cout <<"Pointer: "<<dst<<"\n";
-    std::cout <<"Name: "<<ptr->name<<"\n";
-    std::cout <<"Age: "<<ptr->age<<std::endl;
+    std::cout <<"Name:    "<<ptr->name<<"\n";
+    std::cout <<"Age:     "<<ptr->age<<std::endl;
     std::cout <<"/////-----Serialization-----////\n";
     dst = Serializer::serialize(ptr);
     std::cout <<"------Serialized pointer: "<<dst<<"\n";
-    std::cout <<"/////-----Data - before deserialization-----////";
     ntr = Serializer::deserialize(dst);
+    std::cout <<"-----Data - after deserialization---------\n";
     std::cout <<"Des Pointer: "<<ntr<<"\n";
-    std::cout <<"Des Name: "<<ntr->name<<"\n";
-    std::cout <<"Des Age: "<<ntr->age<<std::endl;
+    std::cout <<"Des Name:    "<<ntr->name<<"\n";
+    std::cout <<"Des Age:     "<<ntr->age<<std::endl;
 
     delete ptr;
 	return (0);

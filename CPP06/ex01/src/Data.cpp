@@ -1,17 +1,17 @@
 #include "../inc/Data.hpp"
 #include <iostream>
 
-Data::Data(void){
+Data::Data(void):name(""), age(0){
     std::cout <<"Data created\n";
 }
 
-Data::Data(const Data & src){
+Data::Data(Data const& src){
     this->age = src.age;
     this->name = src.name;
     std::cout <<"Data copy constructed\n";
 }
 
-Data& Data::operator=(const Data & rhs){
+Data& Data::operator=(Data const& rhs){
     if (this != &rhs)
         *this = rhs;
     std::cout <<"Data copy assigned\n";
