@@ -11,4 +11,5 @@ class ScalarConverter{
     public:
         static void convert(std::string const& input);
 };
+
 #endif
