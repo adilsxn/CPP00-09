@@ -19,7 +19,7 @@ class PhoneBook
         
     private:
        int _nbContacts;
-       Contact _List[7];
+       Contact _List[8];
 };
 
 std::string  getInput(std::string input);

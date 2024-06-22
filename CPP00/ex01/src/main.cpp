@@ -20,7 +20,7 @@ int main (void)
             list.addContact();
         else if (input == "SEARCH" || input == "search")
             list.searchContact();
-        else if (input == "EXIT" || input == "exit")
+        else if (input == "EXIT" || input == "exit" || std::cin.eof())
             std::exit(0);
         else
         {
