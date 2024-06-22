@@ -26,9 +26,9 @@ $(OBJ_DIR)/%.o: src/%.c | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@ -I $(INCS) ${LDFLAGS}
 
 ${NAME}: ${OBJS}
-	@echo "Compiling CPP"
+	@echo "Compiling ex03"
 	@${CC} ${CFLAGS}  $^ -o $@  -I ${INCS} ${LDFLAGS}
-	@echo "CPP created"
+	@echo "ex03 created"
 
 $(B_OBJ_DIR)/%.o: src/%.c | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -I $(INCS) -c $< -o $@
@@ -41,7 +41,7 @@ clean:
 
 fclean: clean
 	@${RM} ${NAME}
-	@echo "CPP deleted"
+	@echo "ex03 deleted"
 
 re: fclean all
 
