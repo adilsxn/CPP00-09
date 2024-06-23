@@ -5,22 +5,24 @@
 #include <iostream>
 
 template<typename T, typename F>
-void iter(T& arr, size_t size, F function){
-     for(int i = 0; i < sizs; i++)
+void iter(T* arr, int size, F function){
+     for(int i = 0; i < size; i++)
             function(arr[i]);
       return ;
 };
 
-template<typaname T>
+template<typename T>
 void multbytwo(T& elem){
      elem  *= 2;
-     returb ;
+     return ;
 };
 
 template<typename T>
-void printArray(T& arr, size_t size){
+void printArray(T* arr, int size){
+    std::cout<<"[";
    for(int i = 0; i < size; i++)
-       std::cout << "["<<arr[i]<<"]";
-    std::cout << std::endl;
+       std::cout<<arr[i]<<" ";
+   std::cout<<"]";
+   std::cout << std::endl;
 };
 #endif

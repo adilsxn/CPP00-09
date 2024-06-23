@@ -15,7 +15,7 @@ SRCS       = src/main.cpp
 OBJS       = ${SRCS:src/%.c=$(OBJ_DIR)/%.o}
 OBJ_DIR    = obj
 INCS 	   = inc/
-NAME       = CPP
+NAME       = ex01
 CC         = g++
 CFLAGS     = -g -Wall -Wextra -Werror -std=c++98
 RM         = rm -rf
@@ -26,9 +26,9 @@ $(OBJ_DIR)/%.o: src/%.c | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@ -I $(INCS) ${LDFLAGS}
 
 ${NAME}: ${OBJS}
-	@echo "Compiling CPP"
+	@echo "Compiling ex01"
 	@${CC} ${CFLAGS}  $^ -o $@  -I ${INCS} ${LDFLAGS}
-	@echo "CPP created"
+	@echo "ex01 created"
 
 
 ${OBJ_DIR}:
@@ -39,7 +39,7 @@ clean:
 
 fclean: clean
 	@${RM} ${NAME}
-	@echo "CPP deleted"
+	@echo "ex01 deleted"
 
 re: fclean all
 
