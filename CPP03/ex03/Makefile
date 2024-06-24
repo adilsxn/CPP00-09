@@ -18,7 +18,7 @@ OBJ_DIR    = obj
 INCS 	   = inc/
 NAME       = ex03
 CC         = g++
-CFLAGS     = -g -Wall -Wextra -Werror -std=c++98
+CFLAGS     = -g -Wall -Wextra -Werror -Wshadow -Wno-shadow -std=c++98
 RM         = rm -rf
 
 all: ${NAME}

@@ -36,7 +36,7 @@ ScavTrap::ScavTrap(std::string name): ClapTrap(name){
     this->_hitPoints = 100;
     this->_energyPoints = 50;
     this->_energyPoints = 20;
-    std::cout<<"Parametrized Constructor for ScavTrap called\n";
+    std::cout<<"Parametrized Constructor for ScavTrap "<<name <<" called\n";
     return ; 
 }
 
@@ -51,13 +51,13 @@ void ScavTrap::attack(const std::string& target){
 
     if (this->_hitPoints > 0 && this->_energyPoints > 0)
     {
-        std::cout<<"ClapTrap "<<this->getName()<< " attacks "<<target;
+        std::cout<<"ScavTrap "<<this->getName()<< " attacks "<<target;
         std::cout<<", causing "<< this->_attackDamage <<" points of damage\n";
         this->_energyPoints--;
     }
     else
     {
-        std::cout<<"ClapTrap "<<this->getName()<< " tries to repair:\n";
+        std::cout<<"ScavTrap "<<this->getName()<< " tries to repair:\n";
         if (this->_hitPoints <= 0)
             std::cout<<"\thas 0 hit points left\n";
         if (this->_hitPoints <= 0)
