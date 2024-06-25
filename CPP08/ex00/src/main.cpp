@@ -10,10 +10,30 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../inc/easyfind.hpp"
 #include <iostream>
+#include <vector>
 
 int	main(void)
 {
-    std::cout << "Hello, world!\n";
+    std::vector<int> v;
+    std::vector<int>::const_iterator it;
+    
+    for(int i = 0; i < 100; i++)
+        v.push_back(i);
+    try{
+        it = easyfind(v, 57);
+        std::cout <<"Number found: "<<*it<<"\n";
+    }
+    catch(std::exception& e){
+        std::cout <<e.what();
+    }
+    try{
+        it = easyfind(v, 328);
+        std::cout <<"Number found: "<<*it<<"\n";
+    }
+    catch(std::exception& e){
+        std::cout <<e.what();
+    }
 	return (0);
 }
