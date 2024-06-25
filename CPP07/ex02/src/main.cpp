@@ -14,6 +14,8 @@
 
 int	main(void)
 {
-    std::cout << "Hello, world!\n";
+    std::cout << "------Array of Ints--------\n";
+    std::cout << "------Array of Floats--------\n";
+    std::cout << "------Array of Strings--------\n";
 	return (0);
 }
