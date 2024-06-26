@@ -2,23 +2,15 @@
 #include "../inc/Dog.hpp"
 
 
-Dog::Dog(void):Animal(),_type("Dog"){
+Dog::Dog(void):Animal(){
     std::cout << "Dog constructed\n";
+    this->_type = "Dog";
 }
 
 
 Dog::Dog(Dog const& src): Animal(src){
     std::cout << "Dog copy constructed\n";
     *this = src;
-    return ;
-}
-
-std::string Dog::getType()const{
-    return this->_type;
-}
-
-void Dog::setType(std::string type){
-    this->_type = type;
     return ;
 }
 

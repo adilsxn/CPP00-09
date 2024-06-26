@@ -4,7 +4,6 @@
 #include "Brain.hpp"
 
 class Dog: public Animal{
-    std::string _type;
     Brain* _brain;
     public:
         Dog(void);

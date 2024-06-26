@@ -8,13 +8,11 @@ Brain::Brain(){
 Brain::Brain(Brain const& src){
     std::cout << "Brain copy constructed\n";
     *this = src;
-    for(int i = 0; i < 100; i++)
-            this->_ideas[i] =  src._ideas[i];
     return ;
 }
 
 void Brain::learn(std::string const& lesson){
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < 100; i+=15)
         this->_ideas[i] = lesson;
     return ;
 }

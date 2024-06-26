@@ -2,12 +2,12 @@
 #include <string>
 #include "../inc/Cat.hpp"
 
-Cat::Cat(void):Animal(),_type("Cat"){
-    this->_brain = new Brain();
+Cat::Cat(void): Animal(), _brain(new Brain ()){
+    this->_type = "Cat";
     std::cout << "Cat constructed\n";
 }
 
-Cat::Cat(Cat const& src):Animal(src){
+Cat::Cat(Cat const& src):Animal(src), _brain(NULL){
     std::cout << "Cat copy constructed\n";
     *this = src;
     return ;
@@ -15,11 +15,6 @@ Cat::Cat(Cat const& src):Animal(src){
 
 std::string Cat::getType()const{
     return this->_type;
-}
-
-void Cat::setType(std::string type){
-    this->_type = type;
-    return ;
 }
 
 void Cat::teachCat(std::string const& rhs){
@@ -40,7 +35,9 @@ Cat& Cat::operator=(Cat const& rhs){
     if (this != &rhs)
     {
         this->_type = rhs.getType();
-        this->_brain = new Brain();
+        if (this->_brain != NULL)
+            delete this->_brain;
+        this->_brain = new Brain(*rhs._brain);
     }
     return *this;
 }

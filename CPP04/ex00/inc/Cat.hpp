@@ -4,14 +4,11 @@
 #include "Animal.hpp"
 
 class Cat: public Animal{
-    std::string _type;
     public:
         Cat(void);
         Cat(Cat const& src);
         Cat& operator=(Cat const& rhs);
-        virtual ~Cat(void);
-        virtual std::string getType(void)const;
-        void setType(std::string type);
+        ~Cat(void);
         void makeSound(void)const;
 };
 #endif

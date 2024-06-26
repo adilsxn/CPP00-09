@@ -5,7 +5,6 @@ Animal::Animal(void):_type("Blank"){
     std::cout << "Animal constructed\n";
 }
 
-
 Animal::Animal(Animal const& src){
     std::cout << "Animal copy constructed\n";
     *this = src;
@@ -15,12 +14,6 @@ Animal::Animal(Animal const& src){
 std::string Animal::getType()const{
     return this->_type;
 }
-
-void Animal::setType(std::string type){
-    this->_type = type;
-    return ;
-}
-
 
 void Animal::makeSound()const{
     std::cout << "The "<<this->getType()<<" animals\n";

@@ -1,22 +1,14 @@
 #include <iostream>
 #include "../inc/WrongCat.hpp"
 
-WrongCat::WrongCat(void):WrongAnimal(),_type("WrongCat"){
+WrongCat::WrongCat(void):WrongAnimal(){
     std::cout << "WrongCat constructed\n";
+    this->_type = "WrongCat";
 }
 
 WrongCat::WrongCat(WrongCat const& src):WrongAnimal(src){
     std::cout << "WrongCat copy constructed\n";
     *this = src;
-    return ;
-}
-
-std::string WrongCat::getType()const{
-    return this->_type;
-}
-
-void WrongCat::setType(std::string type){
-    this->_type = type;
     return ;
 }
 

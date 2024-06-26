@@ -1,7 +1,7 @@
 #include <iostream>
 #include "../inc/WrongAnimal.hpp"
 
-WrongAnimal::WrongAnimal(void):_type("Blank"){
+WrongAnimal::WrongAnimal(void):_type("Unknow wronganimals"){
     std::cout << "WrongAnimal constructed\n";
 }
 
@@ -14,11 +14,6 @@ WrongAnimal::WrongAnimal(WrongAnimal const& src){
 
 std::string WrongAnimal::getType()const{
     return this->_type;
-}
-
-void WrongAnimal::setType(std::string type){
-    this->_type = type;
-    return ;
 }
 
 

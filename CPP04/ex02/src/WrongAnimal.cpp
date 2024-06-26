@@ -16,12 +16,6 @@ std::string WrongAnimal::getType()const{
     return this->_type;
 }
 
-void WrongAnimal::setType(std::string type){
-    this->_type = type;
-    return ;
-}
-
-
 void WrongAnimal::makeSound()const{
     std::cout << "The "<<this->getType()<<" wronganimals\n";
 }
