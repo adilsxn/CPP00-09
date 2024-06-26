@@ -16,6 +16,11 @@ public:
     Span &operator=(const Span & rhs);
     ~Span(void);
     void addNumber(int number);
+    template<typename T>
+    void addNumbers(typename T::iterator & begin,
+                    typename T::iterator & end);
+
+
     int shortestSpan(void);
     int longestSpan(void);
 private:

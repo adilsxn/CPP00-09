@@ -33,6 +33,7 @@ void Span::addNumber(int number){
     return ;
 }
 
+
 int Span::shortestSpan(void){
     if (_numbers.size() <= 1)
         throw noSpanFoundException();
