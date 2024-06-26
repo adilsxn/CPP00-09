@@ -6,11 +6,11 @@
 class Span {
 public:
     class excedingCapacityException: public std::exception{
-        virtual const char * what(void)const throw(){
-            return "This span has reached it's capacity\n";
-        }
+        virtual const char * what(void)const throw();
     };
-    Span(void);
+    class noSpanFoundException: public std::exception{
+        virtual const char * what(void)const throw();
+    };
     Span(unsigned int n);
     Span(const Span & src);
     Span &operator=(const Span & rhs);
@@ -19,6 +19,7 @@ public:
     int shortestSpan(void);
     int longestSpan(void);
 private:
+    Span(void);
     std::vector<int> _numbers;
     unsigned int _maxNum;
 };
