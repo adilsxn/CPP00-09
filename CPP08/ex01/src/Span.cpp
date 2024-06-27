@@ -1,5 +1,6 @@
 #include "../inc/Span.hpp"
 #include <algorithm>
+#include <vector>
 
 Span::Span(void):_maxNum(0), _numbers(0){
     return ;
@@ -37,14 +38,23 @@ void Span::addNumber(int number){
 int Span::shortestSpan(void){
     if (_numbers.size() <= 1)
         throw noSpanFoundException();
-
+    std::vector<int> sorted(this->_numbers);
+    std::sort(sorted.begin(), sorted.end());
+    int shortest = sorted[1] - sorted[0];
+    for(int i = 2; i < sorted.size(); i++)
+    {
+        int tmp = sorted[i] - sorted[i - 1];
+        if (tmp < shortest)
+            shortest = tmp;
+    }
+    return (shortest);
 }
 
 int Span::longestSpan(void){
     if (_numbers.size() <= 1)
         throw noSpanFoundException();
-    return std::min_element(_numbers.begin(), _numbers.end()) -
-        std::max_element(_numbers.begin(), _numbers.end());
+    return std::max_element(_numbers.begin(), _numbers.end()) -
+        std::min_element(_numbers.begin(), _numbers.end());
 }
 
 const char* Span::excedingCapacityException::what()const throw(){
