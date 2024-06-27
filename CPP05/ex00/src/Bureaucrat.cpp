@@ -29,7 +29,7 @@ Bureaucrat::Bureaucrat(std::string const& name, int grade)
 
 Bureaucrat::Bureaucrat(Bureaucrat const& src){
     *this = src;
-    std::cout << "Bureaucrat copy created created\n";
+    std::cout << "Bureaucrat copy created\n";
     return ;
 }
 

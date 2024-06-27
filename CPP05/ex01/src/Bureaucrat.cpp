@@ -8,7 +8,7 @@ Bureaucrat::Bureaucrat():_name("robot"), _grade(75){
 
 
 Bureaucrat::Bureaucrat(std::string const& name, int grade)
-    : _name(name){
+    : _name(name), _grade(grade){
     try{
         std::cout << "Trying to create a bureaucrat named "
             <<name<<"\n";

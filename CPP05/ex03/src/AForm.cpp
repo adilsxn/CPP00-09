@@ -12,7 +12,7 @@ AForm::AForm()
 }
 
 AForm::AForm(std::string const& name, int gradeToSign, int gradeToExec)
-    : _name(name)
+    : _name(name), _signed(false), _gradeToSign(0), _gradeToExecute(0)
 {
     try {
         std::cout << "Attempting to create a form named: "<<name<<"\n";
