@@ -4,7 +4,7 @@
 #include<stack>
 #include<deque>
 template<typename T>
-class MutantStack: public std::stack<T, std::deque<T>>{
+class MutantStack: public std::stack<T, std::deque<T> >{
 public:
     MutantStack(void){};
     MutantStack(const MutantStack & src):std::stack<T>(src){};
