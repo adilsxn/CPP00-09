@@ -89,7 +89,7 @@ void toInt(std::string const& input){
 void toFloat(std::string const& input){
     float val= static_cast<float>(std::strtof(input.c_str(), NULL));
     std::cout.precision(1);
-    if (val > FLT_MAX || val < -FLT_MIN)
+    if (val > FLT_MAX || val < -FLT_MAX)
         std::cout <<"float: impossible\n";
     else
         std::cout <<"float: "<<std::fixed<<val<<"f"<<std::endl;
@@ -98,7 +98,7 @@ void toFloat(std::string const& input){
 void toDouble(std::string const& input){
     double val= static_cast<double>(std::strtod(input.c_str(), NULL));
     std::cout.precision(1);
-    if (val > DBL_MAX || val < -DBL_MIN)
+    if (val > DBL_MAX || val < -DBL_MAX)
         std::cout <<"double: impossible\n";
     else
         std::cout <<"double: "<<std::fixed<<val<<std::endl;
@@ -128,13 +128,13 @@ void CharOnly(std::string const& input){
 }
 
 void toPseudo(std::string const& input){
-    if (*input.end() != 'f'){
+    if (input[input.size() - 1] != 'f'){
         std::cout << "char: impossible\n"
             <<"int: impossible\n"
             <<"float: "<<input<<"f\n"
             <<"double: "<<input<<std::endl;
     }
-    if (*input.end() == 'f'){
+    if (input[input.size() - 1] == 'f'){
         std::cout << "char: impossible\n"
             <<"int: impossible\n"
             <<"float: "<<input<<"\n"

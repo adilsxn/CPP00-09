@@ -54,21 +54,21 @@ void identify(Base& p){
         std::cout <<"Ref. Type A\n";
     }
     catch(std::exception& e){
-        std::cout<<"Invalid Ref. Type A: "<<std::endl;
+        std::cout<<"Invalid Ref. Type A"<<std::endl;
     }
     try {
         B b  = dynamic_cast<B&>(p);
         std::cout <<"Ref. Type B\n";
     }
     catch(std::exception& e){
-        std::cout<<"Invalid Ref. Type B: "<<std::endl;
+        std::cout<<"Invalid Ref. Type B"<<std::endl;
     }
     try {
         C c = dynamic_cast<C&>(p);
         std::cout <<"Ref. Type C\n";
     }
     catch(std::exception& e){
-        std::cout<<"Invalid Ref. Type C: "<<std::endl;
+        std::cout<<"Invalid Ref. Type C"<<std::endl;
     }
 }
 

@@ -23,7 +23,7 @@ int	main(void)
     ptr->age = 25;
 
     std::cout <<"-------Data - before serialization--------\n";
-    std::cout <<"Pointer: "<<dst<<"\n";
+    std::cout <<"Original Pointer: "<<ptr<<"\n";
     std::cout <<"Name:    "<<ptr->name<<"\n";
     std::cout <<"Age:     "<<ptr->age<<std::endl;
     std::cout <<"/////-----Serialization-----////\n";
