@@ -11,9 +11,15 @@
 /* ************************************************************************** */
 
 #include <iostream>
-
-int	main(void)
+#include "../inc/BitcoinExchange.hpp"
+int	main(int ac, char **av)
 {
-    std::cout << "Hello, world!\n";
+    if (ac != 2)
+    {
+        std::cout <<"usage: btc <input.txt>\n";
+        exit(0);
+    }
+    BitcoinExchange btc;
+    btc.startExchange(av[1]);
 	return (0);
 }

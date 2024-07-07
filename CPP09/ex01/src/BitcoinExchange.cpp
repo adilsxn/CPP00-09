@@ -1,16 +1,13 @@
 #include "../inc/BitcoinExchange.hpp"
 #include <cstdlib>
 #include <fstream>
+#include <sstream>
 #include <stdexcept>
 #include <string>
 #include <iostream>
 
 BitcoinExchange::BitcoinExchange(void):_databaseFile("data.csv"), _inputFile("helo"){
-    return ;
-}
-
-
-BitcoinExchange::BitcoinExchange(std::string& inputFile):_inputFile(inputFile){
+    this->_loadDatabase();
     return ;
 }
 
@@ -42,7 +39,11 @@ void BitcoinExchange::_loadDatabase(void){
         int pos = tmp.find(',');
         date = tmp.substr(0, pos);
         rate = tmp.substr(pos + 1);
-        _database[date] = atof(rate.c_str());
+        float rateValue = atof(rate.c_str());
+        if(_validateDate(date) == false 
+                || (rateValue < 0 || rateValue > 1000))
+            throw std::runtime_error("Error: corrupted database\n");
+        this->_database[date] = rateValue;
     }
 
 }
@@ -63,9 +64,44 @@ void BitcoinExchange::_loadInputFile(void){
         int pos = tmp.find('|');
         date = tmp.substr(0, pos);
         rate = tmp.substr(pos + 1);
+        float tmp_rate = atof(rate.c_str());
+        _getBitcoinValue(date, tmp_rate);
     }
 }
- 
+
+void BitcoinExchange::startExchange(const char *inputFile){
+    this->_inputFile = inputFile;
+    this->_loadInputFile();
+    return ;
+}
+
+void BitcoinExchange::_getBitcoinValue(std::string date, float value) {
+    float rateValue;
+    if (!this->_validateDate(date))
+        std::cout <<"Error: bad input => "<<date<<"\n";
+    if (value < 0 || value > 1000 )
+        std::cout <<"Error: not a positive number.\n";
+    if (value > 1000 )
+        std::cout <<"Error: too large a number.\n";
+    if(this->_database.count(date) == 1)
+       rateValue = this->_database[date];
+    else
+        rateValue = this->_database.upper_bound(date)->second;;
+    std::cout <<date<<" => "<<value<<" = "
+        <<rateValue * value<<"\n";
+}
+
+bool BitcoinExchange::_validateDate(std::string& date){
+    char delimiter;
+    int day, month, year;
+    std::stringstream ss(date);
+    ss >> year >> delimiter >> month >> delimiter >> day;
+    if (this->_validateYear(year, month, day) == false|| 
+            !this->_validateDay(day, month, year) == false||
+            !this->_validateMonth(month) == false)
+        return false;
+    return true;
+}
 bool BitcoinExchange::_validateYear(int year, int month, int day){
     if (year < 2009 || year > 2023)
         return false;

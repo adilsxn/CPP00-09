@@ -1,16 +1,15 @@
 #ifndef BITCOINEXCHANGE_HPP
 #define BITCOINEXCHANGE_HPP
 
-#include <algorithm>
 #include <string>
 #include <map>
 
 class BitcoinExchange {
 public:
     BitcoinExchange(void);
-    BitcoinExchange(std::string& inputFile);
     BitcoinExchange(const BitcoinExchange & src);
     BitcoinExchange &operator=(const BitcoinExchange & rhs);
+    void startExchange(const char *inputFile);
     ~BitcoinExchange(void);
 private:    
     std::map<std::string, float>_database;
