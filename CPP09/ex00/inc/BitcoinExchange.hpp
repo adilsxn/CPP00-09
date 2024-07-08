@@ -12,7 +12,7 @@ public:
     void startExchange(const char *inputFile);
     ~BitcoinExchange(void);
 private:    
-    std::map<std::string, float>_database;
+    std::map<std::string, double>_database;
     std::string _databaseFile;
     bool _checkFile(void);
     void _loadDatabase(void);

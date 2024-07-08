@@ -39,9 +39,12 @@ void BitcoinExchange::_loadDatabase(void){
         date = tmp.substr(0, pos);
         rate = tmp.substr(pos + 1);
         float rateValue = atof(rate.c_str());
-        if(_validateDate(date) == false 
-                || (rateValue < 0 || rateValue > 1000))
-            throw std::runtime_error("Error: corrupted database\n");
+        // if(_validateDate(date) == false 
+        //         || (rateValue < 0 || rateValue > 1000))
+        // {
+        //     std::cout <<date<<" | "<<rate<<"\n";
+        //     throw std::runtime_error("Error: corrupted database\n");
+        // }
         this->_database[date] = rateValue;
     }
 
@@ -59,12 +62,20 @@ void BitcoinExchange::_loadInputFile(std::string& inputFile){
         throw std::runtime_error("Wrong header on input file\n");
     while(std::getline(in, tmp)){
         if (tmp.find('|') == std::string::npos || tmp.empty())
+        {
             std::cout <<"Error: bad input => "<<tmp<<"\n";
+            continue ;
+        }
         int pos = tmp.find('|');
         date = tmp.substr(0, pos);
         rate = tmp.substr(pos + 1);
         float tmp_rate = atof(rate.c_str());
-        _getBitcoinValue(date, tmp_rate);
+        try{
+            _getBitcoinValue(date, tmp_rate);
+        }
+        catch(std::exception& e){
+            std::cout <<e.what();
+        }
     }
 }
 
@@ -81,12 +92,15 @@ BitcoinExchange::~BitcoinExchange(void){
 void BitcoinExchange::_getBitcoinValue(std::string date, float value) {
     float rateValue;
     if (!this->_validateDate(date))
-        std::cout <<"Error: bad input => "<<date<<"\n";
-    if (value < 0 || value > 1000 )
-        std::cout <<"Error: not a positive number.\n";
-    if (value > 1000 )
-        std::cout <<"Error: too large a number.\n";
-    if(this->_database.count(date) == 1)
+    {
+        std::string s("Error: bad input => " + date +"\n");
+        throw std::runtime_error (s.c_str());
+    }
+    else if (value < 0)
+        throw std::runtime_error("Error: not a positive number.\n");
+    else if (value > 1000 )
+       throw std::runtime_error("Error: too large a number.\n");
+    else if(this->_database.count(date) == 1)
        rateValue = this->_database[date];
     else
         rateValue = this->_database.upper_bound(date)->second;;
@@ -100,15 +114,15 @@ bool BitcoinExchange::_validateDate(std::string& date){
     std::stringstream ss(date);
     ss >> year >> delimiter >> month >> delimiter >> day;
     if (this->_validateYear(year, month, day) == false|| 
-            !this->_validateDay(day, month, year) == false||
-            !this->_validateMonth(month) == false)
+            this->_validateDay(day, month, year) == false||
+            this->_validateMonth(month) == false)
         return false;
     return true;
 }
 bool BitcoinExchange::_validateYear(int year, int month, int day){
     if (year < 2009 || year > 2023)
         return false;
-    if (year == 2009 &&(month != 01 || day != 01))
+    if (year == 2009 &&(month == 01 && day == 01))
         return false;
     return true;
 }
