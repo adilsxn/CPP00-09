@@ -6,7 +6,7 @@
 #include <string>
 #include <iostream>
 
-BitcoinExchange::BitcoinExchange(void):_databaseFile("data.csv"), _inputFile("helo"){
+BitcoinExchange::BitcoinExchange(void):_databaseFile("data.csv"){
     this->_loadDatabase();
     return ;
 }
@@ -18,7 +18,6 @@ BitcoinExchange::BitcoinExchange(const BitcoinExchange& src){
 
 BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& rhs){
     if (this != &rhs){
-        this->_inputFile = rhs._inputFile;
         this->_databaseFile = rhs._databaseFile;
         this->_database = rhs._database;
     }
@@ -48,11 +47,11 @@ void BitcoinExchange::_loadDatabase(void){
 
 }
 
-void BitcoinExchange::_loadInputFile(void){
+void BitcoinExchange::_loadInputFile(std::string& inputFile){
     std::ifstream in;
     std::string tmp, date, rate;
 
-    in.open(this->_inputFile.c_str());
+    in.open(inputFile.c_str());
     if (in.fail())
         throw std::runtime_error("Failed to open the input file\n");
     std::getline(in, tmp);
@@ -70,8 +69,12 @@ void BitcoinExchange::_loadInputFile(void){
 }
 
 void BitcoinExchange::startExchange(const char *inputFile){
-    this->_inputFile = inputFile;
-    this->_loadInputFile();
+    std::string ss (inputFile);
+    this->_loadInputFile(ss);
+    return ;
+}
+
+BitcoinExchange::~BitcoinExchange(void){
     return ;
 }
 

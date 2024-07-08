@@ -13,11 +13,10 @@ public:
     ~BitcoinExchange(void);
 private:    
     std::map<std::string, float>_database;
-    std::string _inputFile;
     std::string _databaseFile;
     bool _checkFile(void);
     void _loadDatabase(void);
-    void _loadInputFile(void);
+    void _loadInputFile(std::string& inputFile);
     void _getBitcoinValue(std::string date, float value);
     bool _validateDate(std::string& date);
     bool _validateDay(int date, int month, int year);

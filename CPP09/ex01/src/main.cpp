@@ -17,9 +17,14 @@ int	main(int ac, char **av)
     if (ac != 2)
     {
         std::cout <<"usage: btc <input.txt>\n";
-        exit(0);
+        return 0;
     }
+    try {
     BitcoinExchange btc;
     btc.startExchange(av[1]);
+    }
+    catch(std::exception& e){
+        std::cout <<e.what();
+    }
 	return (0);
 }

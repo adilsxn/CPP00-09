@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 
-SRCS       = src/main.cpp
+SRCS       = src/BitcoinExchange.cpp src/main.cpp
 OBJS       = ${SRCS:src/%.c=$(OBJ_DIR)/%.o}
 OBJ_DIR    = obj
 INCS 	   = inc/
