@@ -11,11 +11,11 @@
 # **************************************************************************** #
 
 
-SRCS       = src/BitcoinExchange.cpp src/main.cpp
+SRCS       = src/main.cpp
 OBJS       = ${SRCS:src/%.c=$(OBJ_DIR)/%.o}
 OBJ_DIR    = obj
 INCS 	   = inc/
-NAME       = btc
+NAME       = RPN
 CC         = g++
 CFLAGS     = -g -Wall -Wextra -Werror -std=c++98
 RM         = rm -rf
@@ -26,9 +26,9 @@ $(OBJ_DIR)/%.o: src/%.c | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@ -I $(INCS) ${LDFLAGS}
 
 ${NAME}: ${OBJS}
-	@echo "Compiling btc"
+	@echo "Compiling RPN"
 	@${CC} ${CFLAGS}  $^ -o $@  -I ${INCS} ${LDFLAGS}
-	@echo "btc created"
+	@echo "RPN created"
 
 
 ${OBJ_DIR}:
@@ -39,7 +39,7 @@ clean:
 
 fclean: clean
 	@${RM} ${NAME}
-	@echo "btc deleted"
+	@echo "RPN deleted"
 
 re: fclean all
 
