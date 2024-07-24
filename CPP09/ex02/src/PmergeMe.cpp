@@ -8,6 +8,7 @@
 #include <stdexcept>
 #include <string>
 #include <utility>
+#include <iterator>
 // #include <vector>
 #include <iostream>
 #include <deque>
@@ -87,28 +88,30 @@ void PmergeMe::buildInsertionDeq(void){
 }
 
 void PmergeMe::makeSortedDeq(void){
+    //Iterator for position of insetion on main chain
     std::deque<int>::iterator insertionPos;
-    for(std::size_t i = 0; i < _pendDeq.size(); i++){
+    //iterator for pend element to insert in main chain
+    std::deque<int>::iterator pendIt;
+    for(int i = 0; ; i++){
         size_t pos = _posDeq[i];
+        pendIt = _pendDeq.begin();
+        std::advance(pendIt, pos);
         insertionPos = std::upper_bound(_mainDeq.begin(), _mainDeq.end(),
-            _pendDeq[pos]);
-        _mainDeq.insert(insertionPos, _pendDeq[pos]);
+                *pendIt);
+        _mainDeq.insert(insertionPos, *pendIt);
     }
-    if (_pendDeq.size() != 0){
-        for(std::size_t i = 0; i < _pendDeq.size(); i++){
-        insertionPos = std::upper_bound(_mainDeq.begin(), _mainDeq.end(),
-            _pendDeq[i]);
-        _mainDeq.insert(insertionPos, _pendDeq[pos]);
-    }
+    if (pendIt != _pendDeq.end()){
+        for(pendIt = _pendDeq.begin(); pendIt != _pendDeq.end(); pendIt++){
+        insertionPos = std::upper_bound(_mainDeq.begin(), _mainDeq.end(), 
+                pendIt);
+        _mainDeq.insert(insertionPos, *pendIt);
         }
     }
     if (_hasStraggler == true){
-
         insertionPos = std::upper_bound(_mainDeq.begin(), _mainDeq.end(),
             _straggler);
         _mainDeq.insert(insertionPos, _straggler);
     }
-    
 }
 
 void PmergeMe::_sortDeq(void){
