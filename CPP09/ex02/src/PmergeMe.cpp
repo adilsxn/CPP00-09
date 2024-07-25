@@ -3,7 +3,9 @@
 #include <climits>
 #include <cstdlib>
 #include <ctime>
+#include <functional>
 #include <iterator>
+#include <set>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -15,21 +17,27 @@
 
 
 PmergeMe::PmergeMe(const char *av){
-    long long nb;
+    long  nb;
     std::string tmp;
     std::stringstream ss;
+    std::set<int>dupControl;
     _hasStraggler = false;
     ss << av;
 
     while(std::getline(ss, tmp, ' '))
     {
-        nb =  std::atoll(tmp.c_str());
+        nb =  std::atol(tmp.c_str());
         if (nb > INT_MAX || nb < INT_MIN)
             throw std::runtime_error("Only integers are valid\n");
-        _inputDeq.push_back(static_cast<int>(nb));
+        if(!dupControl.insert(static_cast<int>(nb)).second)
+            throw std::runtime_error("Error: duplicate number detected\n");
+       this->_inputDeq.push_back(static_cast<int>(nb));
         // this->_inputVec.push_back(static_cast<int>(nb));
-        _sortDeq();
-    } 
+    }
+    std::cout<<_inputDeq.size();
+    _sortDeq();
+    // for(std::size_t i = 0; i != _inputDeq.size(); i++)
+        // std::cout<<_inputDeq[i]<<" ";
 }
 
 
@@ -57,6 +65,7 @@ int jacobstahl(int n){
 }
 
 void PmergeMe::makePairsFromDeq(void){
+
     if (_inputDeq.size() % 2 == 0)
     {
         _hasStraggler = true;
@@ -64,9 +73,9 @@ void PmergeMe::makePairsFromDeq(void){
         _inputDeq.pop_front();
     }
     std::deque<int>::iterator it;
-    for(it = _inputDeq.begin(); it != _inputDeq.end(); it += 2){
+    for(it = _inputDeq.begin(); it != _inputDeq.end(); it += 1){
         if (*it < *(it += 1))
-            std::iter_swap(it, (it += 1));
+            std::iter_swap(it, it += 1);
         _deqPair.push_back(std::make_pair(*it, *(it += 1)));
     }
 }
@@ -96,6 +105,8 @@ void PmergeMe::makeSortedDeq(void){
         size_t pos = _posDeq[i];
         pendIt = _pendDeq.begin();
         std::advance(pendIt, pos);
+        if (pendIt == _pendDeq.end())
+            break;
         insertionPos = std::upper_bound(_mainDeq.begin(), _mainDeq.end(),
                 *pendIt);
         _mainDeq.insert(insertionPos, *pendIt);
@@ -103,7 +114,7 @@ void PmergeMe::makeSortedDeq(void){
     if (pendIt != _pendDeq.end()){
         for(pendIt = _pendDeq.begin(); pendIt != _pendDeq.end(); pendIt++){
         insertionPos = std::upper_bound(_mainDeq.begin(), _mainDeq.end(), 
-                pendIt);
+                *pendIt);
         _mainDeq.insert(insertionPos, *pendIt);
         }
     }
@@ -117,9 +128,8 @@ void PmergeMe::makeSortedDeq(void){
 void PmergeMe::_sortDeq(void){
     std::cout <<"Before: \n";
     std::deque<int>::iterator it;
-    for(it = _mainDeq.begin(); it != _mainDeq.end(); it++)
+    for(it = _inputDeq.begin(); it != _inputDeq.end(); it++)
         std::cout<<*it<<" ";
-
     makePairsFromDeq();
     sortPairsFromDeq();
 
@@ -128,10 +138,10 @@ void PmergeMe::_sortDeq(void){
         _mainDeq.push_back(it2->first);
         _pendDeq.push_back(it2->second);
     }
-    _mainDeq.insert(_mainDeq.begin(), _mainDeq.front());
+    _mainDeq.insert(_mainDeq.begin(), _pendDeq.front());
     buildInsertionDeq();
     makeSortedDeq();
-    std::cout <<"Before: \n";
+    std::cout <<"After: \n";
     for(it = _mainDeq.begin(); it != _mainDeq.end(); it++)
         std::cout<<*it<<" ";
 }
