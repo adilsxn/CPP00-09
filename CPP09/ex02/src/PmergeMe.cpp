@@ -1,6 +1,7 @@
 #include "../inc/PmergeMe.hpp"
 #include <algorithm>
 #include <climits>
+#include <cstddef>
 #include <cstdlib>
 #include <ctime>
 #include <functional>
@@ -34,7 +35,6 @@ PmergeMe::PmergeMe(const char *av){
        this->_inputDeq.push_back(static_cast<int>(nb));
         // this->_inputVec.push_back(static_cast<int>(nb));
     }
-    std::cout<<_inputDeq.size();
     _sortDeq();
     // for(std::size_t i = 0; i != _inputDeq.size(); i++)
         // std::cout<<_inputDeq[i]<<" ";
@@ -66,30 +66,33 @@ int jacobstahl(int n){
 
 void PmergeMe::makePairsFromDeq(void){
 
-    if (_inputDeq.size() % 2 == 0)
+    if (_inputDeq.size() % 2 != 0)
     {
         _hasStraggler = true;
         _straggler = _inputDeq.front();
         _inputDeq.pop_front();
     }
     std::deque<int>::iterator it;
-    for(it = _inputDeq.begin(); it != _inputDeq.end(); it += 1){
-        if (*it < *(it += 1))
-            std::iter_swap(it, it += 1);
-        _deqPair.push_back(std::make_pair(*it, *(it += 1)));
+    for(it = _inputDeq.begin(); it != _inputDeq.end(); it += 2){
+        if ((it + 1) == _inputDeq.end())
+            break;
+        if (*it < *(it + 1))
+            std::iter_swap(it, it + 1);
+        _deqPair.push_back(std::make_pair(*it, *(it + 1)));
     }
 }
 
 void PmergeMe::sortPairsFromDeq(void){
     std::deque<std::pair<int, int> >::iterator it;
     for(it = _deqPair.begin(); it != _deqPair.end(); it++){
-        std::rotate(std::upper_bound(_deqPair.begin(), it, *it, std::less<std::pair<int, int> >()), it, it + 1);
+        std::rotate(std::upper_bound(_deqPair.begin(), it, *it,
+                    std::less<std::pair<int, int> >()), it, it + 1);
     }
 }
 
 void PmergeMe::buildInsertionDeq(void){
     int jacobSeed = 3;
-    int size = _inputDeq.size() / 2;
+    int size = _pendDeq.size();
     if (size == 0)
         return ;
     for(; jacobstahl(jacobSeed) < size - 1; jacobSeed++)
@@ -101,15 +104,17 @@ void PmergeMe::makeSortedDeq(void){
     std::deque<int>::iterator insertionPos;
     //iterator for pend element to insert in main chain
     std::deque<int>::iterator pendIt;
-    for(int i = 0; ; i++){
-        size_t pos = _posDeq[i];
-        pendIt = _pendDeq.begin();
-        std::advance(pendIt, pos);
-        if (pendIt == _pendDeq.end())
-            break;
-        insertionPos = std::upper_bound(_mainDeq.begin(), _mainDeq.end(),
-                *pendIt);
-        _mainDeq.insert(insertionPos, *pendIt);
+    for(std::size_t i = 0; i < _pendDeq.size(); i++){
+        if (_posDeq.size() > 0){
+            size_t pos = _posDeq[i];
+            pendIt = _pendDeq.begin();
+            std::advance(pendIt, pos);
+            if (pendIt == _pendDeq.end())
+                break;
+            insertionPos = std::upper_bound(_mainDeq.begin(), _mainDeq.end(),
+                    *pendIt);
+            _mainDeq.insert(insertionPos, *pendIt);
+        }
     }
     if (pendIt != _pendDeq.end()){
         for(pendIt = _pendDeq.begin(); pendIt != _pendDeq.end(); pendIt++){
@@ -119,6 +124,7 @@ void PmergeMe::makeSortedDeq(void){
         }
     }
     if (_hasStraggler == true){
+        _hasStraggler = false;
         insertionPos = std::upper_bound(_mainDeq.begin(), _mainDeq.end(),
             _straggler);
         _mainDeq.insert(insertionPos, _straggler);
@@ -130,20 +136,24 @@ void PmergeMe::_sortDeq(void){
     std::deque<int>::iterator it;
     for(it = _inputDeq.begin(); it != _inputDeq.end(); it++)
         std::cout<<*it<<" ";
+    std::cout<<std::endl;
     makePairsFromDeq();
     sortPairsFromDeq();
 
     std::deque<std::pair<int, int> >::iterator it2;
     for(it2 = _deqPair.begin(); it2 != _deqPair.end(); it2++){
+        std::cout<<"{"<<it2->first<<" "<<it2->second<<"}"<<"\n";
         _mainDeq.push_back(it2->first);
         _pendDeq.push_back(it2->second);
     }
     _mainDeq.insert(_mainDeq.begin(), _pendDeq.front());
+    _pendDeq.erase(_pendDeq.begin());
     buildInsertionDeq();
     makeSortedDeq();
-    std::cout <<"After: \n";
+    std::cout <<"\nAfter: \n";
     for(it = _mainDeq.begin(); it != _mainDeq.end(); it++)
         std::cout<<*it<<" ";
+    std::cout<<std::endl;
 }
 
 

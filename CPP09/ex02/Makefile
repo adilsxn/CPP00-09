@@ -16,7 +16,7 @@ OBJS       = ${SRCS:src/%.c=$(OBJ_DIR)/%.o}
 OBJ_DIR    = obj
 INCS 	   = inc/
 NAME       = PmergeMe
-CC         = g++
+CC         = clang++
 CFLAGS     = -g -Wall -Wextra -Werror -pedantic -fsanitize=address -std=c++98
 RM         = rm -rf
 
