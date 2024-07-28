@@ -10,14 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <ctime>
+#include <exception>
 #include <iostream>
 #include "../inc/PmergeMe.hpp"
-
 
 int	main(int ac, char *av[])
 {
     if (ac != 2)
         return 1;
-    PmergeMe sort(av[1]);
+    try{
+        PmergeMe sort(av[1]);
+        sort._sortDeq();
+        sort._sortVec();
+    }
+    catch(std::exception& e){
+        std::cout<<e.what()<<std::endl;
+    }
 	return 0;
 }

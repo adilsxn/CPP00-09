@@ -1,6 +1,8 @@
 #ifndef PMERGEME_HPP
 #define PMERGEME_HPP
+
 #include <utility>
+#include <iostream>
 #include <vector>
 #include <deque>
 
@@ -11,11 +13,8 @@ public:
     PmergeMe &operator=(const PmergeMe &);
     ~PmergeMe(void);
 
-    //generic insertion sort -> no need to duplicate this
-    //it's generic by nature: let's overzealous
-    void insertionSort();
-
     //Deque methods
+    
     void makePairsFromDeq(void);
     void sortPairsFromDeq(void);
     void buildInsertionDeq(void);
@@ -47,5 +46,6 @@ private:
     std::deque<int>_jacobDeq;
 
 };
+
 
 #endif // !PMERGEME_HPP

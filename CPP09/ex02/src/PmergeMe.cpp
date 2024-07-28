@@ -6,6 +6,7 @@
 #include <ctime>
 #include <functional>
 #include <iterator>
+#include <ostream>
 #include <set>
 #include <sstream>
 #include <stdexcept>
@@ -15,6 +16,7 @@
 // #include <vector>
 #include <iostream>
 #include <deque>
+#include <vector>
 
 
 PmergeMe::PmergeMe(const char *av){
@@ -33,11 +35,8 @@ PmergeMe::PmergeMe(const char *av){
         if(!dupControl.insert(static_cast<int>(nb)).second)
             throw std::runtime_error("Error: duplicate number detected\n");
        this->_inputDeq.push_back(static_cast<int>(nb));
-        // this->_inputVec.push_back(static_cast<int>(nb));
+       this->_inputVec.push_back(static_cast<int>(nb));
     }
-    _sortDeq();
-    // for(std::size_t i = 0; i != _inputDeq.size(); i++)
-        // std::cout<<_inputDeq[i]<<" ";
 }
 
 
@@ -54,8 +53,6 @@ PmergeMe::~PmergeMe(void){
     return ;
 }
 
-//insertion sort to sort collection of pairs in order of the largest
-
 int jacobstahl(int n){
     if (n == 0)
         return 0;
@@ -64,13 +61,14 @@ int jacobstahl(int n){
     return jacobstahl(n - 1) + 2 * jacobstahl(n - 2);
 }
 
+//Deque
 void PmergeMe::makePairsFromDeq(void){
 
     if (_inputDeq.size() % 2 != 0)
     {
         _hasStraggler = true;
-        _straggler = _inputDeq.front();
-        _inputDeq.pop_front();
+        _straggler = _inputDeq.back();
+        _inputDeq.pop_back();
     }
     std::deque<int>::iterator it;
     for(it = _inputDeq.begin(); it != _inputDeq.end(); it += 2){
@@ -89,7 +87,7 @@ void PmergeMe::sortPairsFromDeq(void){
                     std::less<std::pair<int, int> >()), it, it + 1);
     }
     for(it = _deqPair.begin(); it != _deqPair.end(); it++){
-        std::cout <<"{"<<it->first<<" "<<it->second<<"}"<<std::endl;
+        // std::cout <<"{"<<it->first<<" "<<it->second<<"}"<<std::endl;
         _mainDeq.push_back(it->first);
         _pendDeq.push_back(it->second);
     }
@@ -103,7 +101,6 @@ void PmergeMe::buildInsertionDeq(void){
     if (size == 0)
         return ;
     for(; jacobstahl(jacobSeed) < size - 1; jacobSeed++){
-        std::cout <<jacobstahl(jacobSeed);
         _posDeq.push_back(jacobstahl(jacobSeed));
     }
 }
@@ -140,23 +137,122 @@ void PmergeMe::makeSortedDeq(void){
 }
 
 void PmergeMe::_sortDeq(void){
-    std::cout <<"Before: \n";
+    std::cout<<"\n\t\t::::DEQUE::::\nBefore: \n";
     std::deque<int>::iterator it;
     for(it = _inputDeq.begin(); it != _inputDeq.end(); it++)
         std::cout<<*it<<" ";
     std::cout<<std::endl;
-    std::clock_t start = std::clock();
+    clock_t timeDeq = clock();
     makePairsFromDeq();
     sortPairsFromDeq();
     buildInsertionDeq();
     makeSortedDeq();
-    std::clock_t end = std::clock();
-    double duration = static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000.0;
-    std::cout <<"\nAfter: \n";
+    timeDeq = clock() - timeDeq;
+    std::cout<<"\nAfter: \n";
     for(it = _mainDeq.begin(); it != _mainDeq.end(); it++)
         std::cout<<*it<<" ";
-    std::cout <<"\nTime elapse: "<<duration;
+    std::cout<<std::endl;
+    std::cout <<"Time elapsed to sort  "<<_inputDeq.size()
+        <<" elements with std::deque: "
+        <<(float)timeDeq * 1000 / CLOCKS_PER_SEC <<"ms\n";
     std::cout<<std::endl;
 }
 
+//Vector
+void PmergeMe::makePairsFromVec(void){
+
+    if (_inputVec.size() % 2 != 0)
+    {
+        _hasStraggler = true;
+        _straggler = _inputVec.back();
+        _inputVec.pop_back();
+    }
+    std::vector<int>::iterator it;
+    for(it = _inputVec.begin(); it != _inputVec.end(); it += 2){
+        if ((it + 1) == _inputVec.end())
+            break;
+        if (*it < *(it + 1))
+            std::iter_swap(it, it + 1);
+        _vecPair.push_back(std::make_pair(*it, *(it + 1)));
+    }
+}
+
+void PmergeMe::sortPairsFromVec(void){
+    std::vector<std::pair<int, int> >::iterator it;
+    for(it = _vecPair.begin(); it != _vecPair.end(); it++){
+        std::rotate(std::upper_bound(_vecPair.begin(), it, *it,
+                    std::less<std::pair<int, int> >()), it, it + 1);
+    }
+    for(it = _vecPair.begin(); it != _vecPair.end(); it++){
+        // std::cout <<"{"<<it->first<<" "<<it->second<<"}"<<std::endl;
+        _mainVec.push_back(it->first);
+        _pendVec.push_back(it->second);
+    }
+    _mainVec.insert(_mainVec.begin(), _pendVec.front());
+    _pendVec.erase(_pendVec.begin());
+}
+
+void PmergeMe::buildInsertionVec(void){
+    int jacobSeed = 3;
+    int size = _pendVec.size();
+    if (size == 0)
+        return ;
+    for(; jacobstahl(jacobSeed) < size - 1; jacobSeed++){
+        _posVec.push_back(jacobstahl(jacobSeed));
+    }
+}
+
+void PmergeMe::makeSortedVec(void){
+    //Iterator for position of insetion on main chain
+    std::vector<int>::iterator insertionPos;
+    //iterator for pend element to insert in main chain
+    std::vector<int>::iterator pendIt;
+    for(std::size_t i = 0; _posVec.size() > 0; i++){
+        if (i >= _posVec.size())
+            break;
+        size_t pos = _posVec.at(i);
+        if (pendIt == _pendVec.end() || pos > _pendVec.size())
+            break;
+        pendIt = _pendVec.begin();
+        std::advance(pendIt, pos);
+        insertionPos = std::upper_bound(_mainVec.begin(), _mainVec.end(),
+                    *pendIt);
+        _mainVec.insert(insertionPos, *pendIt);
+        _pendVec.erase(pendIt);
+    }
+    if (pendIt != _pendVec.end()){
+        for(pendIt = _pendVec.begin(); pendIt != _pendVec.end(); pendIt++){
+        insertionPos = std::upper_bound(_mainVec.begin(), _mainVec.end(), 
+                *pendIt);
+        _mainVec.insert(insertionPos, *pendIt);
+        }
+    }
+    if (_hasStraggler == true){
+        _hasStraggler = false;
+        insertionPos = std::upper_bound(_mainVec.begin(), _mainVec.end(),
+            _straggler);
+        _mainVec.insert(insertionPos, _straggler);
+    }
+}
+
+void PmergeMe::_sortVec(void){
+    std::cout<<"\n\t\t::::VECTOR::::\nBefore: \n";
+    std::vector<int>::iterator it;
+    for(it = _inputVec.begin(); it != _inputVec.end(); it++)
+        std::cout<<*it<<" ";
+    std::cout<<std::endl;
+    clock_t timeVec = clock();
+    makePairsFromVec();
+    sortPairsFromVec();
+    buildInsertionVec();
+    makeSortedVec();
+    timeVec = clock() - timeVec;
+    std::cout<<"\nAfter: \n";
+    for(it = _mainVec.begin(); it != _mainVec.end(); it++)
+        std::cout<<*it<<" ";
+    std::cout<<std::endl;
+    std::cout <<"Time elapsed to sort "<<_inputVec.size()
+        <<" elements with std::vector: "
+        <<(float)timeVec * 1000 / CLOCKS_PER_SEC <<"ms\n";
+}
 
