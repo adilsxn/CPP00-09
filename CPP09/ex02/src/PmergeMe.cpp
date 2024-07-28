@@ -88,6 +88,13 @@ void PmergeMe::sortPairsFromDeq(void){
         std::rotate(std::upper_bound(_deqPair.begin(), it, *it,
                     std::less<std::pair<int, int> >()), it, it + 1);
     }
+    for(it = _deqPair.begin(); it != _deqPair.end(); it++){
+        std::cout <<"{"<<it->first<<" "<<it->second<<"}"<<std::endl;
+        _mainDeq.push_back(it->first);
+        _pendDeq.push_back(it->second);
+    }
+    _mainDeq.insert(_mainDeq.begin(), _pendDeq.front());
+    _pendDeq.erase(_pendDeq.begin());
 }
 
 void PmergeMe::buildInsertionDeq(void){
@@ -95,8 +102,10 @@ void PmergeMe::buildInsertionDeq(void){
     int size = _pendDeq.size();
     if (size == 0)
         return ;
-    for(; jacobstahl(jacobSeed) < size - 1; jacobSeed++)
+    for(; jacobstahl(jacobSeed) < size - 1; jacobSeed++){
+        std::cout <<jacobstahl(jacobSeed);
         _posDeq.push_back(jacobstahl(jacobSeed));
+    }
 }
 
 void PmergeMe::makeSortedDeq(void){
@@ -104,17 +113,16 @@ void PmergeMe::makeSortedDeq(void){
     std::deque<int>::iterator insertionPos;
     //iterator for pend element to insert in main chain
     std::deque<int>::iterator pendIt;
-    for(std::size_t i = 0; i < _pendDeq.size(); i++){
-        if (_posDeq.size() > 0){
-            size_t pos = _posDeq[i];
-            pendIt = _pendDeq.begin();
-            std::advance(pendIt, pos);
-            if (pendIt == _pendDeq.end())
-                break;
-            insertionPos = std::upper_bound(_mainDeq.begin(), _mainDeq.end(),
+    for(std::size_t i = 0; _posDeq.size() > 0; i++){
+        size_t pos = _posDeq[i];
+        if (pendIt == _pendDeq.end() || pos > _pendDeq.size())
+            break;
+        pendIt = _pendDeq.begin();
+        std::advance(pendIt, pos);
+        insertionPos = std::upper_bound(_mainDeq.begin(), _mainDeq.end(),
                     *pendIt);
-            _mainDeq.insert(insertionPos, *pendIt);
-        }
+        _mainDeq.insert(insertionPos, *pendIt);
+        _pendDeq.erase(pendIt);
     }
     if (pendIt != _pendDeq.end()){
         for(pendIt = _pendDeq.begin(); pendIt != _pendDeq.end(); pendIt++){
@@ -137,22 +145,17 @@ void PmergeMe::_sortDeq(void){
     for(it = _inputDeq.begin(); it != _inputDeq.end(); it++)
         std::cout<<*it<<" ";
     std::cout<<std::endl;
+    std::clock_t start = std::clock();
     makePairsFromDeq();
     sortPairsFromDeq();
-
-    std::deque<std::pair<int, int> >::iterator it2;
-    for(it2 = _deqPair.begin(); it2 != _deqPair.end(); it2++){
-        std::cout<<"{"<<it2->first<<" "<<it2->second<<"}"<<"\n";
-        _mainDeq.push_back(it2->first);
-        _pendDeq.push_back(it2->second);
-    }
-    _mainDeq.insert(_mainDeq.begin(), _pendDeq.front());
-    _pendDeq.erase(_pendDeq.begin());
     buildInsertionDeq();
     makeSortedDeq();
+    std::clock_t end = std::clock();
+    double duration = static_cast<double>(end - start) / CLOCKS_PER_SEC * 1000.0;
     std::cout <<"\nAfter: \n";
     for(it = _mainDeq.begin(); it != _mainDeq.end(); it++)
         std::cout<<*it<<" ";
+    std::cout <<"\nTime elapse: "<<duration;
     std::cout<<std::endl;
 }
 
