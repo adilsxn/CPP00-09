@@ -1,5 +1,7 @@
 #include "../inc/BitcoinExchange.hpp"
+#include <cctype>
 #include <cstdlib>
+#include <ctime>
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
@@ -24,6 +26,30 @@ BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& rhs){
     return *this;
 }
 
+
+time_t BitcoinExchange::_getTimeFromStr(std::string& d)const{
+
+    std::size_t placeh = d.find_first_not_of("0123456789- ");
+    if (!_validateDate(d) || placeh != std::string::npos
+            || !std::isdigit(d[d.size() - 1]))
+     {
+        std::string s("Error: bad input => " + d +"\n");
+        throw std::runtime_error (s.c_str());
+    }
+    struct tm tm;
+    char del = '-';
+    std::stringstream ss(d);
+    ss >> tm.tm_year >> del >> tm.tm_mon >> del >> tm.tm_mday;
+    struct tm check(tm);
+   time_t date =  mktime(&tm);
+   if (date == -1 || check.tm_year != tm.tm_year
+           || check.tm_mon != tm.tm_mon 
+           || check.tm_mday != tm.tm_mday){
+        throw std::out_of_range("Error: bad input => " + d );
+   }
+   return date;
+}
+
 void BitcoinExchange::_loadDatabase(void){
     std::ifstream in;
     std::string tmp, date, rate;
@@ -36,9 +62,11 @@ void BitcoinExchange::_loadDatabase(void){
         throw std::runtime_error("Wrong header on database file\n");
     while(std::getline(in, tmp)){
         int pos = tmp.find(',');
-        date = tmp.substr(0, pos);
+        std::string dateTmp (tmp.substr(0, pos));
+        time_t date = _getTimeFromStr(dateTmp);
         rate = tmp.substr(pos + 1);
         float rateValue = atof(rate.c_str());
+
         // if(_validateDate(date) == false 
         //         || (rateValue < 0 || rateValue > 1000))
         // {
@@ -74,7 +102,8 @@ void BitcoinExchange::_loadInputFile(std::string& inputFile){
     while(std::getline(in, tmp)){
         if (tmp.find('|') == std::string::npos || tmp.empty())
         {
-            std::cout <<"Error: bad input => "<<tmp<<"\n";
+            std::cout <<"\nInput: "<<tmp;
+            std::cout <<"\nError: bad input => "<<tmp<<"\n";
             continue ;
         }
         int pos = tmp.find('|');
@@ -100,37 +129,31 @@ BitcoinExchange::~BitcoinExchange(void){
     return ;
 }
 
+//TODO: Add a better to find the close date from the give one
+//also fix the program to work with time_t instead of std::string
 void BitcoinExchange::_getBitcoinValue(std::string date, float value) {
     float rateValue = 0.0;
+    std::map<std::string, double>::iterator it;
     std::cout <<"\nInput: "<<date<<" | "<<value<<"\n";
-    std::size_t placeh = date.find_first_not_of("0123456789- ");
-    if (!_validateDate(date) || placeh != std::string::npos 
-                        )
-    {
-        std::string s("Error: bad input => " + date +"\n");
-        throw std::runtime_error (s.c_str());
-    }
-    else if (value < 0)
+    if (value < 0)
         throw std::runtime_error("Error: not a positive number.\n");
     else if (value > 1000 )
        throw std::runtime_error("Error: too large a number.\n");
-    else if(this->_database.count(date) == 1)
-       rateValue = this->_database[date];
-    else{
-        std::map<std::string, double>::iterator it;
-        it  = _database.lower_bound(date);
-        if (it != _database.begin())
-            it--;
-        std::cout<<"Closest exchange data: "
-            <<it->first
-            <<" -> "<<it->second;
-        rateValue = it->second;
+    // else if(_database.count(date) == 1)
+       // it  = _database.find(date);
+    // else{
+        // it  = _database.lower_bound(date);
+        // if (it != _database.begin())
+            // it--;
     }
+    std::cout<<"Closest exchange data: "
+        <<it->first
+        <<" -> "<<it->second;
+    rateValue = it->second;
     std::cout<<"\n"
         <<"["<<date<<"]"<<" "
         <<rateValue<< " * "<<value<<" = "
         <<rateValue * value<<"\n";
-    std::cout <<"\n";
 }
 
 bool BitcoinExchange::_validateDate(std::string& date){
