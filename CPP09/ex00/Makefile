@@ -16,7 +16,7 @@ OBJS       = ${SRCS:src/%.c=$(OBJ_DIR)/%.o}
 OBJ_DIR    = obj
 INCS 	   = inc/
 NAME       = btc
-CC         = g++
+CC         = c++
 CFLAGS     = -g -Wall -Wextra -Werror -std=c++98
 RM         = rm -rf
 
