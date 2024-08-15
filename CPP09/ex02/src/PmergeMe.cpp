@@ -28,7 +28,7 @@ PmergeMe::PmergeMe(const char **av){
         if (arg.find_first_not_of("0123456789") != std::string::npos)
             throw std::runtime_error("Invalid argument(s) detected");
         nb =  std::atoi(av[i]);
-        if (nb > INT_MAX || nb < INT_MIN)
+        if (nb > INT_MAX || nb < 0)
             throw std::runtime_error("Only integers are valid\n");
         if(!dupControl.insert(static_cast<int>(nb)).second)
             throw std::runtime_error("Error: duplicate number detected\n");
