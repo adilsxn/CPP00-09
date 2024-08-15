@@ -1,10 +1,13 @@
 #include "../inc/BitcoinExchange.hpp"
+#include <string>
 #include <cstdlib>
 #include <fstream>
+#include <cstring>
+#include <ctime>
 #include <sstream>
-#include <stdexcept>
-#include <string>
 #include <iostream>
+#include <stdexcept>
+#include <iomanip>
 
 BitcoinExchange::BitcoinExchange(void):_databaseFile("data.csv"){
     this->_loadDatabase();
@@ -24,6 +27,25 @@ BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& rhs){
     return *this;
 }
 
+time_t BitcoinExchange::_getEpochFromStr(std::string& date){
+    struct tm tm;
+    bzero(&tm, sizeof tm);
+    strptime(date.c_str(), "%Y-%m-%d", &tm);
+    time_t epoch = mktime(&tm);
+    return epoch;
+}
+
+std::string BitcoinExchange::_getStrFromEpoch(time_t date){
+    struct tm *toStr = localtime(&date);
+
+    std::stringstream ss;
+    ss << std::setfill('0') << std::setw(4) << toStr->tm_year + 1900;
+    ss << "-" << std::setfill('0') << std::setw(2) << toStr->tm_mon + 1;
+    ss << "-" << std::setfill('0') << std::setw(2) << toStr->tm_mday;
+
+    return ss.str();
+}
+
 void BitcoinExchange::_loadDatabase(void){
     std::ifstream in;
     std::string tmp, date, rate;
@@ -37,15 +59,10 @@ void BitcoinExchange::_loadDatabase(void){
     while(std::getline(in, tmp)){
         int pos = tmp.find(',');
         date = tmp.substr(0, pos);
+        time_t epoch = _getEpochFromStr(date);
         rate = tmp.substr(pos + 1);
-        float rateValue = atof(rate.c_str());
-        // if(_validateDate(date) == false 
-        //         || (rateValue < 0 || rateValue > 1000))
-        // {
-        //     std::cout <<date<<" | "<<rate<<"\n";
-        //     throw std::runtime_error("Error: corrupted database\n");
-        // }
-        this->_database[date] = rateValue;
+        double rateValue = atof(rate.c_str());
+        this->_database[epoch] = rateValue;
     }
 
 }
@@ -72,20 +89,20 @@ void BitcoinExchange::_loadInputFile(std::string& inputFile){
     if (tmp != "date | value")
         throw std::runtime_error("Wrong header on input file\n");
     while(std::getline(in, tmp)){
+        std::cout <<"\nInput: "<<tmp<<"\n";
         if (tmp.find('|') == std::string::npos || tmp.empty())
-        {
             std::cout <<"Error: bad input => "<<tmp<<"\n";
-            continue ;
-        }
-        int pos = tmp.find('|');
-        date = trimSpace(tmp.substr(0, pos));
-        rate = tmp.substr(pos + 1);
-        float tmp_rate = atof(rate.c_str());
-        try{
-            _getBitcoinValue(date, tmp_rate);
-        }
-        catch(std::exception& e){
-            std::cout <<e.what();
+        else{
+            int pos = tmp.find('|');
+            date = trimSpace(tmp.substr(0, pos));
+            rate = tmp.substr(pos + 1);
+            double tmp_rate = atof(rate.c_str());
+            try{
+                _getBitcoinValue(date, tmp_rate);
+            }
+            catch(std::exception& e){
+                std::cout <<e.what();
+            }
         }
     }
 }
@@ -100,12 +117,36 @@ BitcoinExchange::~BitcoinExchange(void){
     return ;
 }
 
-void BitcoinExchange::_getBitcoinValue(std::string date, float value) {
-    float rateValue = 0.0;
-    std::cout <<"\nInput: "<<date<<" | "<<value<<"\n";
-    std::size_t placeh = date.find_first_not_of("0123456789- ");
-    if (!_validateDate(date) || placeh != std::string::npos 
-                        )
+void BitcoinExchange::_getRateValue(time_t epoch, double value){
+    double rateValue = 0.0;
+    std::map<time_t, double>::iterator it;
+    it = _database.find(epoch);
+    if (it != _database.end())
+       rateValue = it->second;
+    else{
+        for (it = _database.begin(); it != _database.end(); it++){
+            std::map<time_t, double>::iterator next = it;
+            next++;
+            if (((epoch >= it->first) && (next == _database.end()))
+                 || ((epoch >= it->first) && (epoch < next->first)))
+                    break;
+        }
+        rateValue = it->second;
+    }
+    std::cout<<std::fixed;
+    std::cout.precision(2);
+    std::cout<<"Closest exchange data: "
+        <<_getStrFromEpoch(it->first)
+        <<" -> "<<rateValue;
+    std::cout<<"\n"
+        <<"["<<_getStrFromEpoch(epoch)<<"]"<<" "
+        <<rateValue<< " * "<<value<<" = "
+         <<rateValue * value<<"\n";
+    // std::cout <<"\n";
+}
+
+void BitcoinExchange::_getBitcoinValue(std::string& date, double value){
+    if (!_validateDate(date))
     {
         std::string s("Error: bad input => " + date +"\n");
         throw std::runtime_error (s.c_str());
@@ -114,39 +155,25 @@ void BitcoinExchange::_getBitcoinValue(std::string date, float value) {
         throw std::runtime_error("Error: not a positive number.\n");
     else if (value > 1000 )
        throw std::runtime_error("Error: too large a number.\n");
-    else if(this->_database.count(date) == 1)
-       rateValue = this->_database[date];
-    else{
-        std::map<std::string, double>::iterator it;
-        it  = _database.lower_bound(date);
-        if (it != _database.begin())
-            it--;
-        std::cout<<"Closest exchange data: "
-            <<it->first
-            <<" -> "<<it->second;
-        rateValue = it->second;
-    }
-    std::cout<<"\n"
-        <<"["<<date<<"]"<<" "
-        <<rateValue<< " * "<<value<<" = "
-        <<rateValue * value<<"\n";
-    std::cout <<"\n";
+    time_t epoch = _getEpochFromStr(date);
+    _getRateValue(epoch, value);
 }
 
-bool BitcoinExchange::_validateDate(std::string& date){
+bool BitcoinExchange::_validateDate(std::string& date) const{
     char delimiter;
-    int day = -4565, month = -4565, year = -4565;
     std::stringstream ss(date);
-    ss >> year >> delimiter >> month >> delimiter >> day;
+    int day, month, year;
+    if (date.length() < 8 || date.length() > 10)
+        return false;
+    if (!(ss >> year >> delimiter >> month >> delimiter >> day))
+        return false;
     if (this->_validateYear(year, month, day) == false|| 
             this->_validateDay(day, month, year) == false||
             this->_validateMonth(month) == false)
         return false;
     return true;
 }
-bool BitcoinExchange::_validateYear(int year, int month, int day){
-    if (year == -4565)
-        return false;
+bool BitcoinExchange::_validateYear(int year, int month, int day) const{
     if (year < 2009 || year > 2023)
         return false;
     if (year == 2009 &&(month == 01 && day == 01))
@@ -154,9 +181,7 @@ bool BitcoinExchange::_validateYear(int year, int month, int day){
     return true;
 }
 
-bool BitcoinExchange::_validateDay(int day, int month, int year){
-    if (day == -4565)
-        return false;
+bool BitcoinExchange::_validateDay(int day, int month, int year) const{
     int lastDay = 31;
     if (month == 4 || month == 6 || 
             month == 9 || month == 11)
@@ -169,9 +194,7 @@ bool BitcoinExchange::_validateDay(int day, int month, int year){
     return true;
 }
 
-bool BitcoinExchange::_validateMonth(int month){
-    if (month == -4565)
-        return false;
+bool BitcoinExchange::_validateMonth(int month) const{
     if (month < 1 || month > 12)
         return false;
     return true;
