@@ -17,7 +17,7 @@ OBJ_DIR    = obj
 INCS 	   = inc/
 NAME       = PmergeMe
 CC         = c++
-CFLAGS     = -g -Wall -Wextra -Werror -std=c++98
+CFLAGS     = -Wall -Wextra -Werror -O2 -std=c++98
 RM         = rm -rf
 
 all: ${NAME}

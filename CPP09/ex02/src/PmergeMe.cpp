@@ -8,28 +8,26 @@
 #include <iterator>
 #include <ostream>
 #include <set>
-#include <sstream>
 #include <stdexcept>
 #include <string>
 #include <utility>
 #include <iterator>
-// #include <vector>
 #include <iostream>
 #include <deque>
 #include <vector>
 
 
-PmergeMe::PmergeMe(const char *av){
+PmergeMe::PmergeMe(const char **av){
     long  nb;
-    std::string tmp;
-    std::stringstream ss;
     std::set<int>dupControl;
     _hasStraggler = false;
-    ss << av;
 
-    while(std::getline(ss, tmp, ' '))
+    for(int i = 1; av[i] != NULL; i++)
     {
-        nb =  std::atol(tmp.c_str());
+        std::string arg = av[i];
+        if (arg.find_first_not_of("0123456789") != std::string::npos)
+            throw std::runtime_error("Invalid argument(s) detected");
+        nb =  std::atoi(av[i]);
         if (nb > INT_MAX || nb < INT_MIN)
             throw std::runtime_error("Only integers are valid\n");
         if(!dupControl.insert(static_cast<int>(nb)).second)
@@ -37,6 +35,8 @@ PmergeMe::PmergeMe(const char *av){
        this->_inputDeq.push_back(static_cast<int>(nb));
        this->_inputVec.push_back(static_cast<int>(nb));
     }
+    if (_inputVec.size() == 1 || _inputDeq.size() == 1)
+        throw std::runtime_error("Error: two or more values are needed");
 }
 
 
@@ -111,7 +111,9 @@ void PmergeMe::makeSortedDeq(void){
     //iterator for pend element to insert in main chain
     std::deque<int>::iterator pendIt;
     for(std::size_t i = 0; _posDeq.size() > 0; i++){
-        size_t pos = _posDeq[i];
+        if (i >= _posDeq.size())
+            break;
+        size_t pos = _posDeq.at(i);
         if (pendIt == _pendDeq.end() || pos > _pendDeq.size())
             break;
         pendIt = _pendDeq.begin();
@@ -137,7 +139,7 @@ void PmergeMe::makeSortedDeq(void){
 }
 
 void PmergeMe::_sortDeq(void){
-    std::cout<<"\n\t\t::::DEQUE::::\nBefore: \n";
+    std::cout<<"Before:\t";
     std::deque<int>::iterator it;
     for(it = _inputDeq.begin(); it != _inputDeq.end(); it++)
         std::cout<<*it<<" ";
@@ -148,14 +150,14 @@ void PmergeMe::_sortDeq(void){
     buildInsertionDeq();
     makeSortedDeq();
     timeDeq = clock() - timeDeq;
-    std::cout<<"\nAfter: \n";
+    std::cout<<"\nAfter:\t";
     for(it = _mainDeq.begin(); it != _mainDeq.end(); it++)
         std::cout<<*it<<" ";
+    std::cout<<std::endl;
     std::cout<<std::endl;
     std::cout <<"Time elapsed to sort  "<<_inputDeq.size()
         <<" elements with std::deque: "
         <<(float)timeDeq * 1000 / CLOCKS_PER_SEC <<"ms\n";
-    std::cout<<std::endl;
 }
 
 //Vector
@@ -236,21 +238,21 @@ void PmergeMe::makeSortedVec(void){
 }
 
 void PmergeMe::_sortVec(void){
-    std::cout<<"\n\t\t::::VECTOR::::\nBefore: \n";
-    std::vector<int>::iterator it;
-    for(it = _inputVec.begin(); it != _inputVec.end(); it++)
-        std::cout<<*it<<" ";
-    std::cout<<std::endl;
+    // std::cout<<"\n\t\t::::VECTOR::::\nBefore: \n";
+    // std::vector<int>::iterator it;
+    // for(it = _inputVec.begin(); it != _inputVec.end(); it++)
+        // std::cout<<*it<<" ";
+    // std::cout<<std::endl;
     clock_t timeVec = clock();
     makePairsFromVec();
     sortPairsFromVec();
     buildInsertionVec();
     makeSortedVec();
     timeVec = clock() - timeVec;
-    std::cout<<"\nAfter: \n";
-    for(it = _mainVec.begin(); it != _mainVec.end(); it++)
-        std::cout<<*it<<" ";
-    std::cout<<std::endl;
+    // std::cout<<"\nAfter: \n";
+    // for(it = _mainVec.begin(); it != _mainVec.end(); it++)
+    //     std::cout<<*it<<" ";
+    // std::cout<<std::endl;
     std::cout <<"Time elapsed to sort "<<_inputVec.size()
         <<" elements with std::vector: "
         <<(float)timeVec * 1000 / CLOCKS_PER_SEC <<"ms\n";

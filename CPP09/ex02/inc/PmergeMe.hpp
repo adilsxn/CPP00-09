@@ -2,13 +2,12 @@
 #define PMERGEME_HPP
 
 #include <utility>
-#include <iostream>
 #include <vector>
 #include <deque>
 
 class PmergeMe {
 public:
-    PmergeMe(const char *av);
+    PmergeMe(const char **av);
     PmergeMe(const PmergeMe &);
     PmergeMe &operator=(const PmergeMe &);
     ~PmergeMe(void);

@@ -15,17 +15,17 @@
 #include <iostream>
 #include "../inc/PmergeMe.hpp"
 
-int	main(int ac, char *av[])
+int	main(int ac, const char *av[])
 {
-    if (ac != 2)
+    if (ac == 1)
         return 1;
     try{
-        PmergeMe sort(av[1]);
+        PmergeMe sort(av);
         sort._sortDeq();
         sort._sortVec();
     }
     catch(std::exception& e){
-        std::cout<<e.what()<<std::endl;
+        std::cerr<<e.what()<<std::endl;
     }
 	return 0;
 }

@@ -3,7 +3,6 @@
 #include <cstdlib>
 #include <fstream>
 #include <cstring>
-#include <ctime>
 #include <sstream>
 #include <iostream>
 #include <stdexcept>
@@ -101,7 +100,7 @@ void BitcoinExchange::_loadInputFile(std::string& inputFile){
                 _getBitcoinValue(date, tmp_rate);
             }
             catch(std::exception& e){
-                std::cout <<e.what();
+                std::cerr <<e.what();
             }
         }
     }
